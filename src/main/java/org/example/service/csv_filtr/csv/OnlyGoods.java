@@ -1,35 +1,30 @@
 package org.example.service.csv_filtr.csv;
 
-import org.example.DTO.DtoError;
-
 import java.util.ArrayList;
 import java.util.List;
 
 public class OnlyGoods {
+    private List<StructureCSV> dataWithItem;
     int cellPrice = 2;
     int cellItem = 3;
-    private final List<DtoError> reportCSV = new ArrayList<>();
 
 
     public List<StructureCSV> findOnlyGoods(List<String[]> rows) {
-        List<StructureCSV> dataWithItem = new ArrayList<>();
+        dataWithItem = new ArrayList<>();
         for (String[] row : rows) {
-            try {
-                // Если в ячейке price и item число, то эту строку добавляем для дальнейшей работы.
-                if (isFigure(row[cellItem]) && isFigure(row[cellPrice])) {
-                    int price = convertFloatToInt(row[cellPrice]);
-                    int item = Integer.parseInt(row[cellItem]);
-                    dataWithItem.add(new StructureCSV(row[0], row[1], price, item));
-                }
-            } catch (Exception ignored) {
-            }
+            iteratorRow(row);
         }
         return dataWithItem;
     }
 
-
-    public List<DtoError> getReportCSV() {
-        return reportCSV;
+    private void iteratorRow(String[] row) {
+        boolean rowCellItem = isFigure(row[cellItem]);
+        boolean rowCellPrice = isFigure(row[cellPrice]);
+        if (rowCellItem && rowCellPrice) {
+            int price = convertFloatToInt(row[cellPrice]);
+            int item = Integer.parseInt(row[cellItem]);
+            dataWithItem.add(new StructureCSV(row[0], row[1], price, item));
+        }
     }
 
 
