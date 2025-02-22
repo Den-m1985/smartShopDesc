@@ -1,22 +1,27 @@
 package org.example.service.csv_filtr.csv;
 
 import org.example.DTO.DtoError;
+import org.example.service.BasicLanguageManager;
 import org.example.service.csv_filtr.CsvFilter;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class CsvFilterImpl implements CsvFilter {
-    private List<DtoError> error = new ArrayList<>();
+public class CsvFilterImpl extends BasicLanguageManager implements CsvFilter {
+    private final List<DtoError> error = new ArrayList<>();
 
 
     public List<StructureCSV> csvFilter(String fileName) {
-        List<String[]> rows = new CsvRead().readCSV2(fileName);
+        String encoding = languageManager.get("main_messages", "encoding.windows");
+        List<String[]> rowsArray = new CsvRead().readCSV2(fileName, encoding);
+
+        int lengthLine = 4; // count normal length line in report in csv file
+        List<String[]> rows = new SeparateGoods().separateArray(rowsArray, lengthLine);
+
+        new DeleteQuotes(rows);
 
         // В этом блоке оставляем только те колонки где есть цена и кол-во
-        OnlyGoods onlyGoods = new OnlyGoods();
-        List<StructureCSV> dataWithItem = onlyGoods.findOnlyGoods(rows);
-        error = onlyGoods.getReportCSV();
+        List<StructureCSV> dataWithItem = new OnlyGoods().findOnlyGoods(rows);
 
         // этот блок возвращает иникальные элементы
         UniqueGoods uniqueGoods = new UniqueGoods();
