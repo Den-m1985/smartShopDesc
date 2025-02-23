@@ -11,14 +11,14 @@ import java.util.List;
 
 public class CsvRead extends BasicLanguageManager {
 
-    public List<String[]> readCSV2(String fileName, String encoding) {
+    public List<String[]> readCSV(String fileName, String encoding) {
         List<String[]> rows = new ArrayList<>();
         try (BufferedReader reader = new BufferedReader(
                 new InputStreamReader(
                         new FileInputStream(fileName), Charset.forName(encoding)))) {
             String line;
             while ((line = reader.readLine()) != null) {
-                String[] divideStr = line.split(";");
+                String[] divideStr = line.split(";", -1);   // split(";", -1): Этот вызов метода split указывает, что нужно сохранить все пустые элементы, которые возникают из-за нескольких подряд идущих разделителей.
                 rows.add(divideStr);
             }
         } catch (Exception e) {

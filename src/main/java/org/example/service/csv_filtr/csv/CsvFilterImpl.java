@@ -13,7 +13,7 @@ public class CsvFilterImpl extends BasicLanguageManager implements CsvFilter {
 
     public List<StructureCSV> csvFilter(String fileName) {
         String encoding = languageManager.get("main_messages", "encoding.windows");
-        List<String[]> rowsArray = new CsvRead().readCSV2(fileName, encoding);
+        List<String[]> rowsArray = new CsvRead().readCSV(fileName, encoding);
 
         int lengthLine = 4; // count normal length line in report in csv file
         List<String[]> rows = new SeparateGoods().separateArray(rowsArray, lengthLine);
