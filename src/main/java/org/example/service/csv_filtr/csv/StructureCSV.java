@@ -1,5 +1,7 @@
 package org.example.service.csv_filtr.csv;
 
+import java.util.Objects;
+
 public class StructureCSV {
     private final String name;
     private final String articular;
@@ -38,4 +40,18 @@ public class StructureCSV {
     public String toString() {
         return "name= " + name + ", artucul= " + articular + ", price= " + price + ", item= " + item;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        StructureCSV that = (StructureCSV) o;
+        return price == that.price && item == that.item && Objects.equals(name, that.name) && Objects.equals(articular, that.articular);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, articular, price, item);
+    }
+
 }
