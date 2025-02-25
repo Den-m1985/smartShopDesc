@@ -1,13 +1,13 @@
-package org.example.service.newExel;
+package org.example.service.excel.excel_new;
 
 import org.apache.poi.ss.usermodel.Workbook;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
 
-public class WriteExelXlsx {
+public class WriteExcelXlsx {
 
-    public WriteExelXlsx(Workbook workbook, String fileNamePrice) {
+    public WriteExcelXlsx(Workbook workbook, String fileNamePrice) {
         try (FileOutputStream outputStream = new FileOutputStream(fileNamePrice)) {
             workbook.write(outputStream);
             workbook.close();

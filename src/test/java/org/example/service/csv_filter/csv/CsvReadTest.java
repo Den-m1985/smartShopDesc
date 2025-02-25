@@ -1,4 +1,4 @@
-package org.example.service.csv_filtr.csv;
+package org.example.service.csv_filter.csv;
 
 import org.example.service.BasicLanguageManager;
 import org.junit.jupiter.api.Assertions;
@@ -29,7 +29,7 @@ public class CsvReadTest extends BasicLanguageManager {
         }
         List<String[]> result = new CsvRead().readCSV(testFile.getAbsolutePath(), encoding);
         List<String[]> expected = List.of(
-                new String[]{"НОВИНКИ", "", "", ""},
+                new String[]{"НОВИНКИ"},
                 new String[]{"Название", "Размер/Цвет", "Цена", "Количество"},
                 new String[]{"FORZA Кольцо-подставка для смартфона, 6,5x3x0,1см, фэйс", "(12-470-011)", "17", "1"},
                 new String[]{"INBLOOM  Заборчик декоративный Цветок 10шт, 15x33 см", "(44-172-003)", "87", "4"},

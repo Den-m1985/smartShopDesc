@@ -1,8 +1,8 @@
-package org.example.service.csv_filtr.csv;
+package org.example.service.csv_filter.csv;
 
 import org.example.DTO.DtoError;
 import org.example.service.BasicLanguageManager;
-import org.example.service.csv_filtr.CsvFilter;
+import org.example.service.csv_filter.CsvFilter;
 
 import java.util.ArrayList;
 import java.util.List;

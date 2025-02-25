@@ -1,5 +1,6 @@
 package org.example.service.browser.login;
 
+import org.example.controller.TabController;
 import org.example.enums.NameProducts;
 import org.example.service.BasicLanguageManager;
 import org.example.service.alfa812.account.Alfa812Account;
@@ -13,7 +14,8 @@ public abstract class AbstractLoginPage extends BasicLanguageManager {
     protected LoginStorage loginStorage;
 
 
-    public AbstractLoginPage(NameProducts product) throws Exception {
+    public AbstractLoginPage(TabController tabController) throws Exception {
+        NameProducts product = tabController.getProduct();
         loginStorage = new LoginStorage(product);
         Alfa812Account alfa812Account = new Alfa812Account();
         BolshePodarkovAccount bolshePodarkovAccount = new BolshePodarkovAccount();

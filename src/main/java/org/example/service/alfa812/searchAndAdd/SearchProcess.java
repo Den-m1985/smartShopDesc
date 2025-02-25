@@ -3,7 +3,7 @@ package org.example.service.alfa812.searchAndAdd;
 import org.example.DTO.DtoError;
 import org.example.service.BasicLanguageManager;
 import org.example.service.browser.chrome.DriverChrome;
-import org.example.service.csv_filtr.csv.StructureCSV;
+import org.example.service.csv_filter.csv.StructureCSV;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;

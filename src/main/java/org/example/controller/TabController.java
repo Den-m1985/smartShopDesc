@@ -1,7 +1,8 @@
 package org.example.controller;
 
+import org.example.enums.FileExtension;
 import org.example.enums.NameProducts;
-import org.example.model.TabModel;
+import org.example.model.FilePathManager;
 import org.example.service.BasicLanguageManager;
 import org.example.service.StartButtonTask;
 import org.example.ui.tabbed_pane.TabView;
@@ -9,23 +10,42 @@ import org.example.ui.tabbed_pane.TabView;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 public class TabController extends BasicLanguageManager implements ActionListener {
-    private final TabModel model;
     private final TabView view;
     private final NameProducts product;
+    private final ArrayList<FileExtension[]> extension;
+    private final FilePathManager filePathManager;
 
-    public TabController(TabModel model, TabView view, NameProducts product) {
-        this.model = model;
+    public TabController(TabView view, NameProducts product) {
         this.view = view;
         this.product = product;
+        extension = new ArrayList<>();
+        filePathManager = new FilePathManager();
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         JButton button = (JButton) e.getSource();
         button.setText(languageManager.get("main_messages", "button.in.work"));
-        new StartButtonTask(model, view, product).execute();
+        new StartButtonTask(view, product, this).execute();
+    }
+
+    public TabView getView() {
+        return view;
+    }
+
+    public NameProducts getProduct() {
+        return product;
+    }
+
+    public ArrayList<FileExtension[]> getExtension() {
+        return extension;
+    }
+
+    public FilePathManager getFilePathManager() {
+        return filePathManager;
     }
 
 }

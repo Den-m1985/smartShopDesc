@@ -1,9 +1,10 @@
 package org.example.service;
 
+import org.example.controller.TabController;
 import org.example.enums.NameProducts;
-import org.example.model.TabModel;
 import org.example.service.alfa812.StartAlfa812;
 import org.example.service.bolshe_podarkov.StartBolshePodarkov;
+import org.example.service.compare_files.StartCompareFiles;
 import org.example.ui.tabbed_pane.TabView;
 
 import javax.swing.*;
@@ -12,30 +13,31 @@ import java.util.concurrent.ExecutionException;
 
 public class StartButtonTask extends SwingWorker<Void, String> {
     private final LanguageManager languageManager = LanguageManager.getInstance();
-    private final TabModel model;
     private final TabView view;
     private final NameProducts product;
+    TabController tabController;
 
-    public StartButtonTask(TabModel model, TabView view, NameProducts product) {
-        this.model = model;
+    public StartButtonTask(TabView view, NameProducts product, TabController tabController) {
         this.view = view;
         this.product = product;
+        this.tabController = tabController;
     }
 
     @Override
     protected Void doInBackground() {
+        String name = tabController.getProduct().getString();
         switch (product) {
             case BOLSHE_PODARKOV -> {
-                publish("\nstart: " + product.getString());
-                new StartBolshePodarkov(view, product);
+                publish("\nstart: " + name);
+                new StartBolshePodarkov(tabController);
             }
             case ALFA_812 -> {
-                publish("\nstart: " + product.getString());
-                new StartAlfa812(view, product);
+                publish("\nstart: " + name);
+                new StartAlfa812(tabController);
             }
             case COMPARE_2_FILES -> {
-                publish("\nstart: " + product.getString());
-
+                publish("\nstart: " + name);
+                new StartCompareFiles(tabController);
             }
         }
         return null;
@@ -44,7 +46,6 @@ public class StartButtonTask extends SwingWorker<Void, String> {
     @Override
     protected void process(List<String> chunks) {
         for (String text : chunks) {
-            model.appendText(text);
             view.appendToTextArea(text);
         }
     }

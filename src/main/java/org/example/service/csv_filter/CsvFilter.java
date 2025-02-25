@@ -1,7 +1,7 @@
-package org.example.service.csv_filtr;
+package org.example.service.csv_filter;
 
 import org.example.DTO.DtoError;
-import org.example.service.csv_filtr.csv.StructureCSV;
+import org.example.service.csv_filter.csv.StructureCSV;
 
 import java.util.List;
 

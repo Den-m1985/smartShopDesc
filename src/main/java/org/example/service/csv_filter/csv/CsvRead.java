@@ -1,4 +1,4 @@
-package org.example.service.csv_filtr.csv;
+package org.example.service.csv_filter.csv;
 
 import org.example.service.BasicLanguageManager;
 
@@ -18,7 +18,7 @@ public class CsvRead extends BasicLanguageManager {
                         new FileInputStream(fileName), Charset.forName(encoding)))) {
             String line;
             while ((line = reader.readLine()) != null) {
-                String[] divideStr = line.split(";", -1);   // split(";", -1): Этот вызов метода split указывает, что нужно сохранить все пустые элементы, которые возникают из-за нескольких подряд идущих разделителей.
+                String[] divideStr = line.split(";");
                 rows.add(divideStr);
             }
         } catch (Exception e) {

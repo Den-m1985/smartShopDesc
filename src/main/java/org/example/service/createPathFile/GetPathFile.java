@@ -8,14 +8,13 @@ import java.awt.*;
 import java.io.File;
 
 public class GetPathFile extends BasicLanguageManager {
-    private String path;
 
-    public String getPathFile(String extension) {
+    public String getPathFile(String[] extension) {
 
         JFileChooser fileOpen = new JFileChooser();
 
         fileOpen.setPreferredSize(new Dimension(600, 500)); // window size
-        FileNameExtensionFilter filter = new FileNameExtensionFilter("files " + extension, extension);
+        FileNameExtensionFilter filter = new FileNameExtensionFilter("files " + extension[0], extension);
         fileOpen.setFileFilter(filter);
 
         String defaultFolder = languageManager.get("main_messages", "default.open");
@@ -26,9 +25,9 @@ public class GetPathFile extends BasicLanguageManager {
         int ret = fileOpen.showDialog(null, languageManager.get("main_messages", "file.open"));
         if (ret == JFileChooser.APPROVE_OPTION) {
             File file = fileOpen.getSelectedFile();
-            path = file.getAbsolutePath();
+            return file.getAbsolutePath();
         }
-        return path;
+        return null;
     }
 
 }
