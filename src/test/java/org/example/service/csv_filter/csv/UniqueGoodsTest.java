@@ -1,4 +1,4 @@
-package org.example.service.csv_filtr.csv;
+package org.example.service.csv_filter.csv;
 
 import org.junit.jupiter.api.Test;
 

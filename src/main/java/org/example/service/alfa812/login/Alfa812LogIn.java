@@ -1,16 +1,14 @@
 package org.example.service.alfa812.login;
 
-import org.example.enums.NameProducts;
+import org.example.controller.TabController;
 import org.example.service.browser.chrome.XPathWait;
 import org.example.service.browser.login.AbstractLoginPage;
 import org.openqa.selenium.WebElement;
 
 public class Alfa812LogIn extends AbstractLoginPage {
-    private final NameProducts product;
 
-    public Alfa812LogIn(NameProducts product) throws Exception {
-        super(product);
-        this.product = product;
+    public Alfa812LogIn(TabController tabController) throws Exception {
+        super(tabController);
     }
 
     @Override

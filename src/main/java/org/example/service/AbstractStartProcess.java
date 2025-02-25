@@ -1,58 +1,44 @@
 package org.example.service;
 
-import org.example.service.createPathFile.GetPathFile;
-import org.example.ui.tabbed_pane.TabView;
+import org.example.controller.TabController;
 
 import javax.swing.*;
 
 public abstract class AbstractStartProcess extends BasicLanguageManager {
-    protected final TabView view;
+    protected final TabController tabController;
 
-    public AbstractStartProcess(TabView view) {
-        this.view = view;
+    public AbstractStartProcess(TabController tabController) {
+        this.tabController = tabController;
     }
 
     public void startProcess() {
         try {
             long start = System.nanoTime();
-            String pathFile = getPathFile();
-            startController(pathFile);
+            startController();
             long end = System.nanoTime();
             long time = (end - start) / 1000000000;
             finish(time);
         } catch (Exception ex) {
-            view.appendToTextArea("\n" + languageManager.get("main_messages", "error"));
-            view.appendToTextArea("\n");
-            view.appendToTextArea(ex.getMessage());
+            tabController.getView().appendToTextArea("\n" + languageManager.get("main_messages", "error"));
+            tabController.getView().appendToTextArea("\n");
+            tabController.getView().appendToTextArea(ex.getMessage());
         }
     }
 
-    protected abstract void startController(String pathFile) throws Exception;
-
-    private String getPathFile() {
-        String pathFile = new GetPathFile().getPathFile(languageManager.get("main_messages", "extension.csv"));
-        if (pathFile != null) {
-            view.appendToTextArea("\n" + languageManager.get("main_messages", "file.source"));
-            view.appendToTextArea(pathFile);
-            return pathFile;
-        } else {
-            view.appendToTextArea("\n" + languageManager.get("main_messages", "file.open.error"));
-            throw new RuntimeException();
-        }
-    }
+    protected abstract void startController() throws Exception;
 
     protected void finish(long time) {
-        view.appendToTextArea("\n\n");
-        view.appendToTextArea(languageManager.get("main_messages", "successfully"));
-        view.appendToTextArea("\n\n");
-        view.appendToTextArea("Время выполнения: " + time / 60 + "мин " + time % 60 + "сек");
-        view.appendToTextArea("\n\n");
-        view.appendToTextArea("_________Оля молодец_________");
-        view.appendToTextArea("\n\n");
-        view.appendToTextArea("_________Попей чайку_________");
-        view.appendToTextArea("\n\n");
+        tabController.getView().appendToTextArea("\n\n");
+        tabController.getView().appendToTextArea(languageManager.get("main_messages", "successfully"));
+        tabController.getView().appendToTextArea("\n\n");
+        tabController.getView().appendToTextArea("Время выполнения: " + time / 60 + "мин " + time % 60 + "сек");
+        tabController.getView().appendToTextArea("\n\n");
+        tabController.getView().appendToTextArea("_________Оля молодец_________");
+        tabController.getView().appendToTextArea("\n\n");
+        tabController.getView().appendToTextArea("_________Попей чайку_________");
+        tabController.getView().appendToTextArea("\n\n");
 
-        view.getStartButton().setText(languageManager.get("main_messages", "successfully"));
+        tabController.getView().getStartButton().setText(languageManager.get("main_messages", "successfully"));
         JOptionPane.showMessageDialog(null, languageManager.get("main_messages", "successfully"));
     }
 }

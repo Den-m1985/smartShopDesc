@@ -1,7 +1,7 @@
 package org.example.service.bolshe_podarkov.searchAndAdd.checkGood;
 
 import org.example.DTO.DtoError;
-import org.example.service.csv_filtr.csv.StructureCSV;
+import org.example.service.csv_filter.csv.StructureCSV;
 
 public class CheckPrice {
     int percent;

@@ -2,7 +2,6 @@ package org.example.ui.tabbed_pane;
 
 import org.example.controller.TabController;
 import org.example.enums.NameProducts;
-import org.example.model.TabModel;
 import org.example.service.BasicLanguageManager;
 
 import javax.swing.*;
@@ -13,9 +12,8 @@ public class CreateJTabbedPane extends BasicLanguageManager {
         JTabbedPane tabbedPane = new JTabbedPane();
 
         for (NameProducts product : NameProducts.values()) {
-            TabModel model = new TabModel();
             TabView view = new TabView();
-            TabController controller = new TabController(model, view, product);
+            TabController controller = new TabController(view, product);
 
             view.appendToTextArea("\n" + languageManager.get("main_messages", "start_message"));
 

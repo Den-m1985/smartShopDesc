@@ -8,7 +8,7 @@ import org.example.service.bolshe_podarkov.searchAndAdd.checkGood.CheckPrice;
 import org.example.service.bolshe_podarkov.searchAndAdd.checkGood.CountProduct;
 import org.example.service.bolshe_podarkov.searchAndAdd.checkGood.GetPrice;
 import org.example.service.bolshe_podarkov.searchAndAdd.search.SearchGoods;
-import org.example.service.csv_filtr.csv.StructureCSV;
+import org.example.service.csv_filter.csv.StructureCSV;
 
 import java.util.ArrayList;
 import java.util.List;

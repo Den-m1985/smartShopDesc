@@ -1,4 +1,4 @@
-package org.example.service.newExel;
+package org.example.service.excel.excel_new;
 
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -8,7 +8,7 @@ import org.example.service.BasicLanguageManager;
 
 import java.util.List;
 
-public class CreateExel extends BasicLanguageManager {
+public class CreateExcel extends BasicLanguageManager {
 
     public XSSFWorkbook createExel(List<DtoError> list) {
         XSSFWorkbook workbook = new XSSFWorkbook();

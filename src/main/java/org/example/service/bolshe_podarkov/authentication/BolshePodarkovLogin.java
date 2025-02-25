@@ -1,6 +1,6 @@
 package org.example.service.bolshe_podarkov.authentication;
 
-import org.example.enums.NameProducts;
+import org.example.controller.TabController;
 import org.example.service.browser.chrome.DriverChrome;
 import org.example.service.browser.login.AbstractLoginPage;
 import org.openqa.selenium.By;
@@ -8,11 +8,9 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
 public class BolshePodarkovLogin  extends AbstractLoginPage {
-    private final NameProducts product;
 
-    public BolshePodarkovLogin(NameProducts product) throws Exception {
-        super(product);
-        this.product = product;
+    public BolshePodarkovLogin(TabController tabController) throws Exception {
+        super(tabController);
     }
 
     @Override

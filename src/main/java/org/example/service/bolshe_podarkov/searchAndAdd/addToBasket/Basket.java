@@ -1,8 +1,8 @@
 package org.example.service.bolshe_podarkov.searchAndAdd.addToBasket;
 
+import org.example.controller.TabController;
 import org.example.service.BasicLanguageManager;
 import org.example.service.browser.chrome.DriverChrome;
-import org.example.ui.tabbed_pane.TabView;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -12,11 +12,8 @@ import java.util.List;
 
 public class Basket extends BasicLanguageManager {
     private final WebDriver driver = DriverChrome.getChromeDriver();
-    private final TabView view;
 
-    public Basket(TabView view) {
-        this.view = view;
-
+    public Basket(TabController tabController) {
         String basket = languageManager.get("bolshe_pod", "basket.address");
         driver.get(basket);
         // if basket have goods
@@ -31,8 +28,8 @@ public class Basket extends BasicLanguageManager {
                 }
             }
         } else {
-            view.appendToTextArea("\n\n");
-            view.appendToTextArea(languageManager.get("main_messages", "basket.empty"));
+            tabController.getView().appendToTextArea("\n\n");
+            tabController.getView().appendToTextArea(languageManager.get("main_messages", "basket.empty"));
         }
     }
 
