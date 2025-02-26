@@ -2,10 +2,9 @@ package org.example.service.alfa812.searchAndAdd;
 
 import org.example.DTO.DtoError;
 import org.example.service.BasicLanguageManager;
-import org.example.service.browser.chrome.DriverChrome;
+import org.example.service.browser.chrome.BrowserManager;
 import org.example.service.csv_filter.csv.StructureCSV;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 
@@ -13,9 +12,8 @@ public class CommandSelectSize extends BasicLanguageManager {
     private DtoError reportList;
 
 
-    public CommandSelectSize(StructureCSV goods) {
-        WebDriver driver = DriverChrome.getChromeDriver();
-        WebElement size = driver.findElement(By.className(languageManager.get("alfa812", "b1c.option")));
+    public CommandSelectSize(BrowserManager browserManager, StructureCSV goods) {
+        WebElement size = browserManager.getDriver().findElement(By.className(languageManager.get("alfa812", "b1c.option")));
 
         String text = size.getText();
 
@@ -35,11 +33,11 @@ public class CommandSelectSize extends BasicLanguageManager {
             Select select = new Select(size);
             select.selectByVisibleText(res);  // выбираем размер
 
-            new CloudWindow();
+            new CloudWindow(browserManager);
 
-            CheckPrice check = new CheckPrice();
+            CheckPrice check = new CheckPrice(browserManager);
             if (check.checkPrice(goods)) {
-                new AddGoods(goodsItem);  // товар найден, добавляем в корзину
+                new AddGoods(browserManager, goodsItem);  // товар найден, добавляем в корзину
             } else {
                 reportList = new DtoError(goodsName, goodsSize, check.getErrorPrice());
             }

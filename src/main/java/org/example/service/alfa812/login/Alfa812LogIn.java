@@ -1,23 +1,23 @@
 package org.example.service.alfa812.login;
 
 import org.example.controller.TabController;
-import org.example.service.browser.chrome.XPathWait;
+import org.example.service.browser.chrome.BrowserManager;
 import org.example.service.browser.login.AbstractLoginPage;
 import org.openqa.selenium.WebElement;
 
 public class Alfa812LogIn extends AbstractLoginPage {
 
-    public Alfa812LogIn(TabController tabController) throws Exception {
-        super(tabController);
+    public Alfa812LogIn(BrowserManager browserManager, TabController tabController) throws Exception {
+        super(browserManager, tabController);
     }
 
     @Override
     protected void tryToLogInAccount(String[] decryptedData) {
-        XPathWait pathWait = new XPathWait();
+//        XPathWait pathWait = new XPathWait(driver);
 
         // field Login
         String linksLogin = languageManager.get("alfa812", "field.login");
-        WebElement loginField = pathWait.xPath(linksLogin);
+        WebElement loginField = browserManager.getXPathWait().xPath(linksLogin);
         loginField.click();
 
         loginField.sendKeys(decryptedData[0]); // enter login
@@ -25,7 +25,7 @@ public class Alfa812LogIn extends AbstractLoginPage {
 
         // field Password
         String linksPassword = languageManager.get("alfa812", "field.password");
-        WebElement passwordField = pathWait.xPath(linksPassword);
+        WebElement passwordField = browserManager.getXPathWait().xPath(linksPassword);
         passwordField.click();
 
         passwordField.sendKeys(decryptedData[1]);  // enter password
@@ -33,7 +33,7 @@ public class Alfa812LogIn extends AbstractLoginPage {
 
         // field Enter
         String linksEnter = languageManager.get("alfa812", "button.enter");
-        WebElement enterField = pathWait.xPath(linksEnter);
+        WebElement enterField = browserManager.getXPathWait().xPath(linksEnter);
         enterField.click();
     }
 

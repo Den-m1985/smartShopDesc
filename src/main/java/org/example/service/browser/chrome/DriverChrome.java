@@ -8,16 +8,8 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import java.time.Duration;
 
 public class DriverChrome {
-    private static WebDriver chromeDriver;
 
-    public static WebDriver getChromeDriver() {
-        if (chromeDriver == null) {
-            chromeDriver = driverChrome();
-        }
-        return chromeDriver;
-    }
-
-    private static WebDriver driverChrome() {
+    public WebDriver getDriverChrome() {
         /*
         Это облегчит процесс обновления ChromeDriver и поможет вам использовать актуальную версию.
          После добавления этой зависимости вы можете использовать следующий код
@@ -76,7 +68,7 @@ public class DriverChrome {
          */
         //options.addArguments("--disable-dev-shm-usage"); // Отключение использования /dev/shm
 
-        WebDriver driver = new ChromeDriver(options);
+        WebDriver chromeDriver = new ChromeDriver(options);
 
          /*
         Ожидание каждый раз когда выполняется команда на сайте
@@ -88,9 +80,9 @@ public class DriverChrome {
          */
        //Duration duration = Duration.ofSeconds(10);
         //driver.manage().timeouts().implicitlyWait(duration);
-        driver.manage().timeouts().implicitlyWait(Duration.ofMillis(500));
+        chromeDriver.manage().timeouts().implicitlyWait(Duration.ofMillis(500));
 
-        return driver;
+        return chromeDriver;
     }
 
 }

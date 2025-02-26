@@ -19,6 +19,9 @@ public class StartCompareFiles extends AbstractStartProcess {
         super(tabController);
         tabController.getExtension().add(new FileExtension[]{FileExtension.XLS, FileExtension.XLSX});
         tabController.getExtension().add(new FileExtension[]{FileExtension.CSV});
+    }
+
+    public void run(){
         startProcess();
     }
 
