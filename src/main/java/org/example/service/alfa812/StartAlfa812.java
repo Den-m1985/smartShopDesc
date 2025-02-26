@@ -9,6 +9,7 @@ import org.example.service.alfa812.searchAndAdd.CloudWindow;
 import org.example.service.alfa812.searchAndAdd.SearchProcess;
 import org.example.service.alfa812.searchAndAdd.ShoppingCart;
 import org.example.service.browser.OpenWebSite;
+import org.example.service.browser.chrome.BrowserManager;
 import org.example.service.createPathFile.FileChooserManager;
 import org.example.service.csv_filter.CsvFilter;
 import org.example.service.csv_filter.csv.CsvFilterImpl;
@@ -22,6 +23,9 @@ public class StartAlfa812 extends AbstractStartProcess {
     public StartAlfa812(TabController tabController) {
         super(tabController);
         tabController.getExtension().add(new FileExtension[]{FileExtension.CSV});
+    }
+
+    public void run(){
         startProcess();
     }
 
@@ -37,18 +41,20 @@ public class StartAlfa812 extends AbstractStartProcess {
         tabController.getView().appendToTextArea(languageManager.get("main_messages", "count.rows.csv") + ": " + data.size());
         tabController.getView().appendToTextArea("\n\n");
 
-        new OpenWebSite(languageManager.get("alfa812", "address"));
+        BrowserManager browserManager = new BrowserManager();
 
-        new CloudWindow();
+        new OpenWebSite(browserManager, languageManager.get("alfa812", "address"));
 
-        new Alfa812LogIn(tabController);
+        new CloudWindow(browserManager);
 
-        new CloudWindow();
+        new Alfa812LogIn(browserManager, tabController);
+
+        new CloudWindow(browserManager);
 
         for (StructureCSV goods : data) {
             String goodsName = goods.getName();
             try {
-                new SearchProcess(reportList).executeProcess(goods);
+                new SearchProcess(browserManager, reportList).executeProcess(goods);
             } catch (Exception e) {
                 tabController.getView().appendToTextArea("\n\n");
                 tabController.getView().appendToTextArea(languageManager.get("main_messages", "error.goods") + goodsName);
@@ -62,10 +68,10 @@ public class StartAlfa812 extends AbstractStartProcess {
             }
         }
 
-        new CloudWindow();
+        new CloudWindow(browserManager);
 
         // по завершению заходим в корзину
-        new ShoppingCart().clickCart();
+        new ShoppingCart(browserManager).clickCart();
 
         tabController.getView().appendToTextArea(languageManager.get("main_messages", "report.size") + reportList.size());
 

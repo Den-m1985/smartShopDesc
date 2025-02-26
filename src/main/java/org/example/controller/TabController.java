@@ -17,6 +17,7 @@ public class TabController extends BasicLanguageManager implements ActionListene
     private final NameProducts product;
     private final ArrayList<FileExtension[]> extension;
     private final FilePathManager filePathManager;
+    private StartButtonTask startButtonTask;
 
     public TabController(TabView view, NameProducts product) {
         this.view = view;
@@ -28,8 +29,15 @@ public class TabController extends BasicLanguageManager implements ActionListene
     @Override
     public void actionPerformed(ActionEvent e) {
         JButton button = (JButton) e.getSource();
-        button.setText(languageManager.get("main_messages", "button.in.work"));
-        new StartButtonTask(view, product, this).execute();
+        if (startButtonTask == null || startButtonTask.isDone()) {
+            button.setText(languageManager.get("main_messages", "button.in.work"));
+            startButtonTask = new StartButtonTask(this);
+            startButtonTask.execute();
+        } else {
+//            startButtonTask.cancelDriver();
+            button.setText(languageManager.get("main_messages", "button.start"));
+            startButtonTask = null;
+        }
     }
 
     public TabView getView() {

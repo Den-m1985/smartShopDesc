@@ -8,7 +8,7 @@ import org.example.service.bolshe_podarkov.authentication.BolshePodarkovLogin;
 import org.example.service.bolshe_podarkov.searchAndAdd.ServiceAddToBasket;
 import org.example.service.bolshe_podarkov.searchAndAdd.addToBasket.Basket;
 import org.example.service.browser.OpenWebSite;
-import org.example.service.browser.chrome.DriverChrome;
+import org.example.service.browser.chrome.BrowserManager;
 import org.example.service.createPathFile.FileChooserManager;
 import org.example.service.csv_filter.CsvFilter;
 import org.example.service.csv_filter.csv.CsvFilterImpl;
@@ -18,10 +18,14 @@ import org.example.service.excel.excel_new.CreateReportExcel;
 import java.util.List;
 
 public class StartBolshePodarkov extends AbstractStartProcess {
+    private BrowserManager browserManager;
 
     public StartBolshePodarkov(TabController tabController) {
         super(tabController);
         tabController.getExtension().add(new FileExtension[]{FileExtension.CSV});
+    }
+
+    public void run(){
         startProcess();
     }
 
@@ -37,13 +41,15 @@ public class StartBolshePodarkov extends AbstractStartProcess {
         tabController.getView().appendToTextArea(languageManager.get("main_messages", "count.rows.csv") + ": " + data.size());
         tabController.getView().appendToTextArea("\n\n");
 
-        new OpenWebSite(languageManager.get("bolshe_pod", "address"));
+        browserManager = new BrowserManager();
 
-        new BolshePodarkovLogin(tabController);
+        new OpenWebSite(browserManager, languageManager.get("bolshe_pod", "address"));
 
-        new Basket(tabController);
+        new BolshePodarkovLogin(browserManager, tabController);
 
-        ServiceAddToBasket searchAndAdd = new ServiceAddToBasket(data);
+        new Basket(browserManager, tabController);
+
+        ServiceAddToBasket searchAndAdd = new ServiceAddToBasket(browserManager, data);
         reportList.addAll(searchAndAdd.getErrorSearch());
 
         tabController.getView().appendToTextArea("Размер отчета: " + reportList.size());
@@ -55,7 +61,11 @@ public class StartBolshePodarkov extends AbstractStartProcess {
        Используем метод `quit()` вместо `close()`,
        чтобы гарантировать полное закрытие драйвера и освобождение всех связанных с ним ресурсов
          */
-        DriverChrome.getChromeDriver().quit();
+        browserManager.getDriver().quit();
+    }
+
+    public void cancelDriver(){
+        browserManager.getDriver().quit();
     }
 
 }

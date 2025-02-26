@@ -1,17 +1,19 @@
 package org.example.service.bolshe_podarkov.searchAndAdd.checkGood;
 
 import org.example.service.BasicLanguageManager;
-import org.example.service.browser.chrome.XPathWait;
+import org.example.service.browser.chrome.BrowserManager;
 import org.openqa.selenium.WebElement;
 
 public class GetPrice extends BasicLanguageManager {
+private final BrowserManager browserManager;
+
+    public GetPrice(BrowserManager browserManager) {
+        this.browserManager = browserManager;
+    }
 
     public String getPriceFromWeb() {
-        XPathWait pathWait = new XPathWait();
-        //WebDriver driver = DriverChrome.getChromeDriver();
-
         String LinksSearch = languageManager.get("bolshe_pod", "price");
-        WebElement price = pathWait.xPathClassName(LinksSearch);
+        WebElement price = browserManager.getXPathWait().xPathClassName(LinksSearch);
         String str = price.getText();
 
         /*

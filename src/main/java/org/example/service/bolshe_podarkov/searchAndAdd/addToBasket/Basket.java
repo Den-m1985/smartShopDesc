@@ -2,20 +2,21 @@ package org.example.service.bolshe_podarkov.searchAndAdd.addToBasket;
 
 import org.example.controller.TabController;
 import org.example.service.BasicLanguageManager;
-import org.example.service.browser.chrome.DriverChrome;
+import org.example.service.browser.chrome.BrowserManager;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
 import javax.swing.*;
 import java.util.List;
 
 public class Basket extends BasicLanguageManager {
-    private final WebDriver driver = DriverChrome.getChromeDriver();
+    private final BrowserManager browserManager;
 
-    public Basket(TabController tabController) {
+    public Basket(BrowserManager browserManager, TabController tabController) {
+        this.browserManager = browserManager;
+
         String basket = languageManager.get("bolshe_pod", "basket.address");
-        driver.get(basket);
+        browserManager.getDriver().get(basket);
         // if basket have goods
         if (checkBasket() != 0) {
             int option = dialogClearBasket();
@@ -24,7 +25,7 @@ public class Basket extends BasicLanguageManager {
                 if (checkBasket() != 0) {
                     int errorOption = dialogErrorBasket();
                     if (errorOption == 0)
-                        driver.close();
+                        browserManager.getDriver().close();
                 }
             }
         } else {
@@ -36,14 +37,14 @@ public class Basket extends BasicLanguageManager {
 
     public int checkBasket() {
         String basketItem = languageManager.get("bolshe_pod", "basket.item");
-        List<WebElement> cart = driver.findElements(By.className(basketItem));
+        List<WebElement> cart = browserManager.getDriver().findElements(By.className(basketItem));
         return cart.size();
     }
 
 
     public void clearBasket() {
         String clearBasket = languageManager.get("bolshe_pod", "basket.clear");
-        WebElement removeItemButton = driver.findElement(By.className(clearBasket));
+        WebElement removeItemButton = browserManager.getDriver().findElement(By.className(clearBasket));
         removeItemButton.click();
     }
 
