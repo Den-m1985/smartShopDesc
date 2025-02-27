@@ -1,23 +1,23 @@
 package org.example.service.compare_files.service_process;
 
 import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
+import org.example.service.BasicLanguageManager;
+import org.example.service.excel.excel_new.ExcelCellRead;
 
-public class HeaderPositionFinder {
-    private final String headerName = "Товары (работы, услуги)";
-    private final String headerName2 = "Товар";
-    private final String headerSum = "Сумма";
+public class HeaderPositionFinder extends BasicLanguageManager {
     private int cellHeaderName;
     private int cellHeaderSum;
     private int cellLast;
     private int headerRowIndex;
     private boolean findRowWithHeader;
+    private final ExcelCellRead excelCellRead;
 
 
     public HeaderPositionFinder(Workbook workbook, int numberSheet) {
+        excelCellRead = new ExcelCellRead();
         //Row  строка      Cell столб
         Sheet sheet = workbook.getSheetAt(numberSheet);
         for (Row row : sheet) {
@@ -31,10 +31,11 @@ public class HeaderPositionFinder {
 
     private void findNameHeader(Row row) {
         for (Cell cell : row) {
-            String tempEXL = cellRead(cell);
+            String tempEXL = excelCellRead.cellRead(cell);
             if (tempEXL != null) {
                 String str = tempEXL.trim();
-                if (str.equals(headerName) || str.equals(headerName2)) {
+                if (str.equals(languageManager.get("compare2files", "header.name.items")) ||
+                        str.equals(languageManager.get("compare2files", "header.name.item"))) {
                     cellHeaderName = cell.getColumnIndex();
                     headerRowIndex = row.getRowNum();
                     cellLast = row.getLastCellNum();
@@ -43,30 +44,13 @@ public class HeaderPositionFinder {
             }
             if (tempEXL != null) {
                 String str = tempEXL.trim();
-                if (findRowWithHeader && str.equals(headerSum)) {
+                if (findRowWithHeader && str.equals(languageManager.get("compare2files", "header.name.sum"))) {
                     cellHeaderSum = cell.getColumnIndex();
                     return;
                 }
             }
         }
     }
-
-    private String cellRead(Cell cell) {
-        if (cell != null) {
-            CellType cellType = cell.getCellType();
-            if (cellType == CellType.STRING) {
-                return cell.getStringCellValue().trim();
-            } else if (cellType == CellType.NUMERIC) {
-                double numericValue = cell.getNumericCellValue();
-                int intValue = (int) numericValue;  // Преобразование к целому числу
-                return String.valueOf(intValue);
-            } else if (cellType == CellType.BOOLEAN) {
-                return String.valueOf(cell.getBooleanCellValue());
-            }
-        }
-        return null;
-    }
-
 
     public int getCellHeaderName() {
         return cellHeaderName;
