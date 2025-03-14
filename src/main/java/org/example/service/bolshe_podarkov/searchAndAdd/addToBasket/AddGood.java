@@ -15,6 +15,13 @@ public class AddGood extends BasicLanguageManager {
 
         Actions actions = new Actions(browserManager.getDriver());
         actions.doubleClick(elementLocator).perform();
+
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+
         String goodsItem = String.valueOf(product.getItem());
         elementLocator.sendKeys(goodsItem);
 
