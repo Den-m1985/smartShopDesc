@@ -1,9 +1,12 @@
 package org.example.service.login_storage;
 
+import org.example.config.ConfigLoader;
 import org.example.enums.NameProducts;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
+import org.mockito.MockedStatic;
 
 import java.nio.file.Path;
 
@@ -12,10 +15,13 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+
 class LoginStorageTest {
     private LoginStorage loginStorage;
+    private MockedStatic<ConfigLoader> configLoaderMock;
     private static final String TEST_LOGIN = "testUser";
     private static final String TEST_PASSWORD = "securePassword123";
+    private static final String MOCKED_AES_CODE = "dzfgsdgbsvfbfsgnbgf467657";
 
     @TempDir
     Path tempDir;
@@ -24,6 +30,14 @@ class LoginStorageTest {
     void setUp() {
         String testFilePath = tempDir.resolve("test_logins.txt").toString();
         loginStorage = new LoginStorage(NameProducts.SADOVOD, testFilePath);
+
+        configLoaderMock = org.mockito.Mockito.mockStatic(ConfigLoader.class);
+        configLoaderMock.when(ConfigLoader::getAESCode).thenReturn(MOCKED_AES_CODE);
+    }
+
+    @AfterEach
+    void tearDown() {
+        configLoaderMock.close(); // важно: иначе static-мок сохранится
     }
 
     @Test
