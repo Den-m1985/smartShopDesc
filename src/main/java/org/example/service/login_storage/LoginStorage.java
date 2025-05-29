@@ -1,7 +1,7 @@
 package org.example.service.login_storage;
 
 import org.example.enums.NameProducts;
-import org.example.service.BasicLanguageManager;
+import org.example.enums.TextLinks;
 import org.example.service.txt.ReadTxtFile;
 import org.example.service.txt.WriteTxt;
 
@@ -14,41 +14,51 @@ import java.util.Random;
 
 import static org.example.config.ConfigLoader.getAESCode;
 
-public class LoginStorage extends BasicLanguageManager {
-    private final String ALGORITHM = "AES";
+/**
+ * Для работы с файлами и шифрованием данных описаны в документации Oracle:
+ * - Описание класса `FileInputStream`: <a href="https://docs.oracle.com/javase/8/docs/api/java/io/FileInputStream.html">...</a>
+ * - Описание класса `FileOutputStream`: <a href="https://docs.oracle.com/javase/8/docs/api/java/io/FileOutputStream.html">...</a>
+ * - Описание класса `Cipher`: <a href="https://docs.oracle.com/javase/8/docs/api/javax/crypto/Cipher.html">...</a>
+ * - Описание класса `SecretKeySpec`: <a href="https://docs.oracle.com/javase/8/docs/api/javax/crypto/spec/SecretKeySpec.html">...</a>
+ * - Описание класса `IvParameterSpec`: <a href="https://docs.oracle.com/javase/8/docs/api/javax/crypto/spec/IvParameterSpec.html">...</a>
+ * Документация по JCE (Java Cryptography Extension),
+ * который используется для шифрования и дешифрования данных:
+ * <a href="https://docs.oracle.com/javase/8/docs/technotes/guides/security/crypto/CryptoSpec.html">...</a>
+ */
+public class LoginStorage {
+    private final String algorithm;
     private final String filePath;
-    private final int byteLength = 16;
+    private final int byteLength;
     private final NameProducts product;
     private final ReadTxtFile readTxtFile;
-
-    /**
-     * для работы с файлами и шифрованием данных описаны в документации Oracle:
-     * - Описание класса `FileInputStream`: <a href="https://docs.oracle.com/javase/8/docs/api/java/io/FileInputStream.html">...</a>
-     * - Описание класса `FileOutputStream`: <a href="https://docs.oracle.com/javase/8/docs/api/java/io/FileOutputStream.html">...</a>
-     * - Описание класса `Cipher`: <a href="https://docs.oracle.com/javase/8/docs/api/javax/crypto/Cipher.html">...</a>
-     * - Описание класса `SecretKeySpec`: <a href="https://docs.oracle.com/javase/8/docs/api/javax/crypto/spec/SecretKeySpec.html">...</a>
-     * - Описание класса `IvParameterSpec`: <a href="https://docs.oracle.com/javase/8/docs/api/javax/crypto/spec/IvParameterSpec.html">...</a>
-     * Документация по JCE (Java Cryptography Extension),
-     * который используется для шифрования и дешифрования данных:
-     * <a href="https://docs.oracle.com/javase/8/docs/technotes/guides/security/crypto/CryptoSpec.html">...</a>
-     */
+    private final Random random;
 
     public LoginStorage(NameProducts product) {
-        readTxtFile = new ReadTxtFile();
-        this.product = product;
-        this.filePath = System.getProperty(
-                languageManager.get("main_messages", "default.user.home")) + File.separator +
-                languageManager.get("main_messages", "default.documents") + File.separator +
-                languageManager.get("main_messages", "file.login");
+        this(product, getDefaultFilePath());
     }
 
+    // Новый конструктор для тестов
+    protected LoginStorage(NameProducts product, String filePath) {
+        this.algorithm = "AES";
+        this.byteLength = 16;
+        this.product = product;
+        this.readTxtFile = new ReadTxtFile();
+        this.random = new Random();
+        this.filePath = filePath;
+    }
+
+    private static String getDefaultFilePath() {
+        return System.getProperty(TextLinks.USER_HOME.getString()) + File.separator
+                + TextLinks.DOCUMENTS.getString() + File.separator
+                + TextLinks.FILE_LOGIN.getString();
+    }
 
     public void saveToFile(String login, String password) throws Exception {
         String secretKey = createSecretKey();
-        Key key = byteKey(secretKey);
+        Key key = createKeyFromString(secretKey);
         LoginCrypt storage = new LoginCrypt();
-        String encryptedLogin = storage.encrypt(login, key, ALGORITHM);
-        String encryptedPassword = storage.encrypt(password, key, ALGORITHM);
+        String encryptedLogin = storage.encrypt(login, key, algorithm);
+        String encryptedPassword = storage.encrypt(password, key, algorithm);
 
         List<String> lines = readTxtFile.readTxtFile(filePath);
         lines.removeIf(line -> line.startsWith(product.name() + ";"));
@@ -67,28 +77,27 @@ public class LoginStorage extends BasicLanguageManager {
                 String encryptedPassword = parts[2];
                 String secretKey = parts[3];
 
-                Key key = byteKey(secretKey);
+                Key key = createKeyFromString(secretKey);
                 LoginCrypt storage = new LoginCrypt();
-                String decryptedLogin = storage.decrypt(encryptedLogin, key, ALGORITHM);
-                String decryptedPassword = storage.decrypt(encryptedPassword, key, ALGORITHM);
+                String decryptedLogin = storage.decrypt(encryptedLogin, key, algorithm);
+                String decryptedPassword = storage.decrypt(encryptedPassword, key, algorithm);
 
                 return new String[]{decryptedLogin, decryptedPassword};
             }
         }
-        return null;
+        return new String[0];
     }
 
-    public Key byteKey(String secretKey) {
+    Key createKeyFromString(String secretKey) {
         //Длина ключа для AES должна составлять 16, 24 или 32 байт
         byte[] keyBytes = secretKey.getBytes();
         byte[] newKeyBytes = Arrays.copyOf(keyBytes, byteLength);
-        return new SecretKeySpec(newKeyBytes, ALGORITHM);
+        return new SecretKeySpec(newKeyBytes, algorithm);
     }
 
-    private String createSecretKey() {
+    String createSecretKey() {
         String characters = getAESCode();
         StringBuilder sb = new StringBuilder(24);
-        Random random = new Random();
         for (int i = 0; i < 23; i++) {
             int index = random.nextInt(characters.length());
             sb.append(characters.charAt(index));
