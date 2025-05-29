@@ -22,13 +22,13 @@ public class DriverChrome {
         // https://googlechromelabs.github.io/chrome-for-testing/
         // https://chromedriver.chromium.org/downloads
         //String chromedriverPath = System.getProperty("user.home") + File.separator +
-                //"chromedriver_win32" + File.separator + "chromedriver.exe";
+        //"chromedriver_win32" + File.separator + "chromedriver.exe";
         //System.setProperty("webdriver.chrome.driver", chromedriverPath);
 
         //https://peter.sh/experiments/chromium-command-line-switches/
         ChromeOptions options = new ChromeOptions();
         //https://www.selenium.dev/documentation/webdriver/drivers/options/#pageloadstrategy
-        options.setPageLoadStrategy(PageLoadStrategy.EAGER); // ускорение загрузки сайта
+        options.setPageLoadStrategy(PageLoadStrategy.NORMAL); // ускорение загрузки сайта
         options.addArguments("--remote-allow-origins=*");
         options.addArguments("--disable-notifications");
         options.addArguments("--user-agent='Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_2) AppleWebKit/537.17 (KHTML, like Gecko) Chrome/24.0.1309.0 Safari/537.17'");
@@ -78,7 +78,7 @@ public class DriverChrome {
         в противном случае тест упадем по истечению времени
         https://www.selenium.dev/documentation/webdriver/waits/
          */
-       //Duration duration = Duration.ofSeconds(10);
+        //Duration duration = Duration.ofSeconds(10);
         //driver.manage().timeouts().implicitlyWait(duration);
         chromeDriver.manage().timeouts().implicitlyWait(Duration.ofMillis(500));
 

@@ -49,9 +49,20 @@ public class StructureCSV {
         return price == that.price && item == that.item && Objects.equals(name, that.name) && Objects.equals(articular, that.articular);
     }
 
+    public boolean equalsWithoutItem(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        StructureCSV that = (StructureCSV) o;
+        return price == that.price && Objects.equals(name, that.name) && Objects.equals(articular, that.articular);
+    }
+
     @Override
     public int hashCode() {
         return Objects.hash(name, articular, price, item);
+    }
+
+    public StructureCSV copyWithNewValues(String name, String articular, int price, int item) {
+        return new StructureCSV(name, articular, price, item);
     }
 
 }

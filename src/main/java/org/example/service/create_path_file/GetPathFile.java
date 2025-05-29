@@ -1,4 +1,4 @@
-package org.example.service.createPathFile;
+package org.example.service.create_path_file;
 
 import org.example.service.BasicLanguageManager;
 

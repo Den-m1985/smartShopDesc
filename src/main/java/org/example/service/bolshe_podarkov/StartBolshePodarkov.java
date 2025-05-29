@@ -7,13 +7,13 @@ import org.example.service.AbstractStartProcess;
 import org.example.service.bolshe_podarkov.authentication.BolshePodarkovLogin;
 import org.example.service.bolshe_podarkov.searchAndAdd.ServiceAddToBasket;
 import org.example.service.bolshe_podarkov.searchAndAdd.addToBasket.Basket;
-import org.example.service.browser.OpenWebSite;
+import org.example.service.browser.OpenWebPage;
 import org.example.service.browser.chrome.BrowserManager;
-import org.example.service.createPathFile.FileChooserManager;
+import org.example.service.create_path_file.FileChooserManager;
 import org.example.service.csv_filter.CsvFilter;
 import org.example.service.csv_filter.csv.CsvFilterImpl;
 import org.example.service.csv_filter.csv.StructureCSV;
-import org.example.service.excel.excel_new.CreateReportExcel;
+import org.example.service.excel.excel_new.ReportExcelCreator;
 
 import java.util.List;
 
@@ -43,7 +43,7 @@ public class StartBolshePodarkov extends AbstractStartProcess {
 
         browserManager = new BrowserManager();
 
-        new OpenWebSite(browserManager, languageManager.get("bolshe_pod", "address"));
+        new OpenWebPage(browserManager, languageManager.get("bolshe_pod", "address"));
 
         new BolshePodarkovLogin(browserManager, tabController);
 
@@ -54,8 +54,8 @@ public class StartBolshePodarkov extends AbstractStartProcess {
 
         tabController.getView().appendToTextArea("Размер отчета: " + reportList.size());
 
-        if (reportList.size() != 0)
-            new CreateReportExcel(reportList, tabController, languageManager.get("bolshe_pod", "file.nane.save"));
+        if (!reportList.isEmpty())
+            new ReportExcelCreator(tabController).createReportExcel(reportList, languageManager.get("bolshe_pod", "file.nane.save"));
 
         /*
        Используем метод `quit()` вместо `close()`,

@@ -4,7 +4,8 @@ public enum NameProducts {
 
     BOLSHE_PODARKOV("Больше подарков"),
     ALFA_812("Alfa 812"),
-    COMPARE_2_FILES("Сравниваем 2 файла");
+    COMPARE_2_FILES("Сравниваем 2 файла"),
+    SADOVOD("Садовод");
 
     private final String string;
 
