@@ -8,13 +8,13 @@ import org.example.service.alfa812.login.Alfa812LogIn;
 import org.example.service.alfa812.searchAndAdd.CloudWindow;
 import org.example.service.alfa812.searchAndAdd.SearchProcess;
 import org.example.service.alfa812.searchAndAdd.ShoppingCart;
-import org.example.service.browser.OpenWebSite;
+import org.example.service.browser.OpenWebPage;
 import org.example.service.browser.chrome.BrowserManager;
-import org.example.service.createPathFile.FileChooserManager;
+import org.example.service.create_path_file.FileChooserManager;
 import org.example.service.csv_filter.CsvFilter;
 import org.example.service.csv_filter.csv.CsvFilterImpl;
 import org.example.service.csv_filter.csv.StructureCSV;
-import org.example.service.excel.excel_new.CreateReportExcel;
+import org.example.service.excel.excel_new.ReportExcelCreator;
 
 import java.util.List;
 
@@ -43,7 +43,7 @@ public class StartAlfa812 extends AbstractStartProcess {
 
         BrowserManager browserManager = new BrowserManager();
 
-        new OpenWebSite(browserManager, languageManager.get("alfa812", "address"));
+        new OpenWebPage(browserManager, languageManager.get("alfa812", "address"));
 
         new CloudWindow(browserManager);
 
@@ -75,8 +75,8 @@ public class StartAlfa812 extends AbstractStartProcess {
 
         tabController.getView().appendToTextArea(languageManager.get("main_messages", "report.size") + reportList.size());
 
-        if (reportList.size() > 0)
-            new CreateReportExcel(reportList, tabController, languageManager.get("alfa812", "file.nane.save"));
+        if (!reportList.isEmpty())
+            new ReportExcelCreator(tabController).createReportExcel(reportList, languageManager.get("alfa812", "file.nane.save"));
 
          /*
         При закрытии браузера список покупок не сохраняется.

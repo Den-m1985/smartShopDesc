@@ -4,6 +4,8 @@ import org.example.controller.TabController;
 import org.example.service.alfa812.StartAlfa812;
 import org.example.service.bolshe_podarkov.StartBolshePodarkov;
 import org.example.service.compare_files.StartCompareFiles;
+import org.example.service.sadovod.StartSadovod;
+import org.example.ui.tabbed_pane.ButtonStart;
 
 import javax.swing.*;
 import java.util.List;
@@ -36,6 +38,10 @@ public class StartButtonTask extends SwingWorker<Void, String> {
                 publish("\nstart: " + name);
                 new StartCompareFiles(tabController).run();
             }
+            case SADOVOD -> {
+                publish("\nstart: " + name);
+                new StartSadovod(tabController).run();
+            }
         }
         return null;
     }
@@ -50,6 +56,7 @@ public class StartButtonTask extends SwingWorker<Void, String> {
     @Override
     protected void done() {
         tabController.getView().getStartButton().setText(languageManager.get("main_messages", "button.start"));
+        new ButtonStart().setLoadingState(tabController.getView().getStartButton(), false);
         try {
             get();
         } catch (InterruptedException | ExecutionException e) {

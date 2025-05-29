@@ -1,6 +1,7 @@
 package org.example.service.bolshe_podarkov.searchAndAdd;
 
 import org.example.DTO.DtoError;
+import org.example.enums.TextLinks;
 import org.example.service.BasicLanguageManager;
 import org.example.service.bolshe_podarkov.searchAndAdd.addToBasket.AddGood;
 import org.example.service.bolshe_podarkov.searchAndAdd.checkGood.CheckAvailability;
@@ -28,10 +29,10 @@ public class ServiceAddToBasket extends BasicLanguageManager {
                 switch (countProduct) {
                     case 0 ->
                             errorMessages.add(new DtoError(product.getName(), product.getArticular(),
-                                    "Неправильный артикул или имя"));
+                                    TextLinks.WRONG_ARTICULAR.getString()));
                     case 1 -> executeToBuy(product);
                     default -> {
-                        if (countProduct > 2) {
+                        if (countProduct >= 2) {
                             errorMessages.add(new DtoError(product.getName(), product.getArticular(),
                                     "Товаров больше чем 1"));
                         }

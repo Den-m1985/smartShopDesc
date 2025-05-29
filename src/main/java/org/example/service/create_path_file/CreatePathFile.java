@@ -1,19 +1,23 @@
-package org.example.service.createPathFile;
+package org.example.service.create_path_file;
 
-import org.example.service.BasicLanguageManager;
+import org.example.enums.TextLinks;
 
 import java.io.File;
 
-public class CreatePathFile extends BasicLanguageManager {
+public class CreatePathFile {
 
     public String createPathFile(String fileName, String extension) {
         String date = new Date().currentDate();
 
-        String defaultFolder = languageManager.get("main_messages", "default.save");
-        String userHome = languageManager.get("main_messages", "default.user.home");
-
-        String joinFileName = System.getProperty(userHome) + File.separator + defaultFolder + File.separator + fileName + "_" + date + "." + extension;
-
+        String joinFileName = System.getProperty(TextLinks.USER_HOME.getString())
+                + File.separator
+                + TextLinks.SAVE_FILE_PATH.getString()
+                + File.separator
+                + fileName
+                + "_"
+                + date
+                + "."
+                + extension;
         return checkSameName(joinFileName);
     }
 

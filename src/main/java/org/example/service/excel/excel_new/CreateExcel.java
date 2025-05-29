@@ -4,22 +4,20 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.example.DTO.DtoError;
-import org.example.service.BasicLanguageManager;
+import org.example.enums.TextLinks;
 
 import java.util.List;
 
-public class CreateExcel extends BasicLanguageManager {
+public class CreateExcel {
 
     public XSSFWorkbook createExel(List<DtoError> list) {
         XSSFWorkbook workbook = new XSSFWorkbook();
-        String textSheet = languageManager.get("main_messages", "name.sheet");
-        Sheet sheet = workbook.createSheet(textSheet);
+        Sheet sheet = workbook.createSheet(TextLinks.SHEET.getString());
 
         //Row  строка
         //Cell столб
         Row row = sheet.createRow(0);
-        String noFindArticular = languageManager.get("main_messages", "product.check");
-        row.createCell(0).setCellValue(noFindArticular);
+        row.createCell(0).setCellValue(TextLinks.NO_ARTICLE.getString());
 
         // create topic
         Row rowTop = sheet.createRow(2);

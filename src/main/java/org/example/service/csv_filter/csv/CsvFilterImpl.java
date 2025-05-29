@@ -1,24 +1,18 @@
 package org.example.service.csv_filter.csv;
 
 import org.example.DTO.DtoError;
-import org.example.service.BasicLanguageManager;
+import org.example.enums.TextLinks;
 import org.example.service.csv_filter.CsvFilter;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class CsvFilterImpl extends BasicLanguageManager implements CsvFilter {
+public class CsvFilterImpl implements CsvFilter {
     private final List<DtoError> error = new ArrayList<>();
 
 
     public List<StructureCSV> csvFilter(String fileName) {
-        String encoding = languageManager.get("main_messages", "encoding.windows");
-        List<String[]> rowsArray = new CsvRead().readCSV(fileName, encoding);
-
-        int lengthLine = 4; // count normal length line in report in csv file
-        List<String[]> rows = new SeparateGoods().separateArray(rowsArray, lengthLine);
-
-        new DeleteQuotes(rows);
+        List<String[]> rows = getRawRows(fileName, 4);
 
         // В этом блоке оставляем только те колонки где есть цена и кол-во
         List<StructureCSV> dataWithItem = new OnlyGoods().findOnlyGoods(rows);
@@ -32,6 +26,19 @@ public class CsvFilterImpl extends BasicLanguageManager implements CsvFilter {
         List<StructureCSV> resolveDuplicatedNames = new DuplicateGoods().findDuplicateGoods(duplicateNames);
         uniqueValues.addAll(resolveDuplicatedNames);
         return uniqueValues;
+    }
+
+    public List<String[]> getRawRows(String fileName, int lengthRow){
+        String encoding = TextLinks.ENCODING.getString();
+        List<String[]> rowsArray = new CsvRead().readCSV(fileName, encoding);
+        List<String[]> rows = new SeparateGoods().separateArray(rowsArray, lengthRow);
+        int difference = rowsArray.size() - rows.size();
+        if (difference > 0){
+            String message = rowsArray.size() + " строк не вошли в диапазон количества колонок. Разница: " + difference + " колонок.";
+            error.add(new DtoError("", "", message));
+        }
+        new DeleteQuotes(rows);
+        return rows;
     }
 
     public List<DtoError> getError() {

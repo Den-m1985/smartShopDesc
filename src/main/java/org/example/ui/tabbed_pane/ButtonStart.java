@@ -19,4 +19,15 @@ public class ButtonStart extends BasicLanguageManager {
         return startButton;
     }
 
+    public void setLoadingState(JButton button, boolean isLoading) {
+        if (isLoading) {
+            button.setText(""); // Убираем текст
+            ImageIcon loadingIcon = new ImageIcon(Objects.requireNonNull(getClass().getResource("/image/load.gif")));
+            button.setIcon(loadingIcon); // Устанавливаем анимированную иконку
+        } else {
+            button.setText(languageManager.get("main_messages", "button.start"));
+            ImageIcon playIcon = new ImageIcon(Objects.requireNonNull(getClass().getResource("/image/play64.png")));
+            button.setIcon(playIcon); // Возвращаем обычную иконку
+        }
+    }
 }

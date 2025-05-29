@@ -5,6 +5,7 @@ import org.example.enums.NameProducts;
 import org.example.model.FilePathManager;
 import org.example.service.BasicLanguageManager;
 import org.example.service.StartButtonTask;
+import org.example.ui.tabbed_pane.ButtonStart;
 import org.example.ui.tabbed_pane.TabView;
 
 import javax.swing.*;
@@ -29,14 +30,17 @@ public class TabController extends BasicLanguageManager implements ActionListene
     @Override
     public void actionPerformed(ActionEvent e) {
         JButton button = (JButton) e.getSource();
+        ButtonStart buttonStart = new ButtonStart();
         if (startButtonTask == null || startButtonTask.isDone()) {
-            button.setText(languageManager.get("main_messages", "button.in.work"));
+            buttonStart.setLoadingState(button, true); // Включаем состояние загрузки
             startButtonTask = new StartButtonTask(this);
             startButtonTask.execute();
         } else {
 //            startButtonTask.cancelDriver();
-            button.setText(languageManager.get("main_messages", "button.start"));
+            buttonStart.setLoadingState(button, false);
             startButtonTask = null;
+            view.appendToTextArea("\n\n");
+            view.appendToTextArea("Отмена процесса");
         }
     }
 
