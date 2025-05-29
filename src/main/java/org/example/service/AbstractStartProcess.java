@@ -2,8 +2,6 @@ package org.example.service;
 
 import org.example.controller.TabController;
 
-import javax.swing.*;
-
 public abstract class AbstractStartProcess extends BasicLanguageManager {
     protected final TabController tabController;
 
@@ -39,6 +37,5 @@ public abstract class AbstractStartProcess extends BasicLanguageManager {
         tabController.getView().appendToTextArea("\n\n");
 
         tabController.getView().getStartButton().setText(languageManager.get("main_messages", "successfully"));
-        JOptionPane.showMessageDialog(null, languageManager.get("main_messages", "successfully"));
     }
 }
