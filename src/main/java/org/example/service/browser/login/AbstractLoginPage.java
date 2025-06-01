@@ -1,64 +1,69 @@
 package org.example.service.browser.login;
 
 import org.example.controller.TabController;
-import org.example.enums.NameProducts;
 import org.example.service.BasicLanguageManager;
-import org.example.service.alfa812.account.Alfa812Account;
-import org.example.service.bolshe_podarkov.authentication.BolshePodarkovAccount;
-import org.example.service.browser.chrome.BrowserManager;
-import org.example.service.login_storage.LoginStorage;
+import org.example.service.util.WebElementsUtil;
 import org.example.ui.authorisation.AuthorizationWindow;
 
 import javax.swing.*;
 
 public abstract class AbstractLoginPage extends BasicLanguageManager {
-    protected LoginStorage loginStorage;
-    protected BrowserManager browserManager;
+    protected WebElementsUtil webElementsUtil;
+    private final AuthorizationWindow authorizationWindow;
+    protected final TabController tabController;
+    protected final AccountManager accountManager;
 
-    public AbstractLoginPage(BrowserManager browserManager, TabController tabController) throws Exception {
-        this.browserManager = browserManager;
+    protected AbstractLoginPage(WebElementsUtil webElementsUtil, TabController tabController) throws Exception {
+        this.webElementsUtil = webElementsUtil;
+        this.tabController = tabController;
+        this.authorizationWindow = new AuthorizationWindow();
+        this.accountManager = new AccountManager(webElementsUtil, tabController.getProduct());
 
-        NameProducts product = tabController.getProduct();
-        loginStorage = new LoginStorage(product);
-        Alfa812Account alfa812Account = new Alfa812Account(browserManager);
-        BolshePodarkovAccount bolshePodarkovAccount = new BolshePodarkovAccount(browserManager);
-        boolean isEnter = false;
+        performLogin();
+    }
 
-        int attempt = 2;
+    protected void performLogin() throws Exception {
+        int attempt = 3;
         while (attempt > 0) {
             try {
-                String[] decryptedData = loginStorage.readFromFile();
-                if (decryptedData == null) {
-                    new AuthorizationWindow(product);
-                    decryptedData = loginStorage.readFromFile();
+                String[] credentials = getCredentialsWithFallback();
+                if (credentials == null) continue;
+
+                tryToLogInAccount(credentials);
+
+                if (accountManager.isLoginSuccessful(credentials)) {
+                    return;
                 }
 
-                tryToLogInAccount(decryptedData);
-
-                switch (product) {
-                    case BOLSHE_PODARKOV -> {
-                        assert decryptedData != null;
-                        isEnter = bolshePodarkovAccount.isEnterAccount(decryptedData[0]);
-                    }
-                    case ALFA_812 -> {
-                        isEnter = alfa812Account.isEnterAccount();
-                    }
-                }
-
-                if (isEnter) {
-                    attempt = 0;
-                }
-            } catch (Exception ignored) {
-                new AuthorizationWindow(product);
-                if (attempt == 1) {
-                    String errorMessage = languageManager.get("main_messages", "failed.login");
-                    JOptionPane.showMessageDialog(null, errorMessage);
-                    throw new RuntimeException(errorMessage);
-                }
+                handleFailedLoginAttempt(attempt);
+            } catch (Exception e) {
+                handleFailedLoginAttempt(attempt);
             }
             attempt--;
         }
+        throw new RuntimeException(getErrorMessage());
     }
 
-    protected abstract void tryToLogInAccount(String[] decryptedData) throws Exception;
+    private String[] getCredentialsWithFallback() throws Exception {
+        String[] credentials = accountManager.getCredentials();
+        if (credentials == null) {
+            authorizationWindow.showWindow(tabController.getProduct());
+            credentials = accountManager.getCredentials();
+        }
+        return credentials;
+    }
+
+    protected void handleFailedLoginAttempt(int attempt) throws Exception {
+        if (attempt == 1) {
+            JOptionPane.showMessageDialog(null, getErrorMessage());
+            throw new RuntimeException(getErrorMessage());
+        }
+        authorizationWindow.showWindow(tabController.getProduct());
+    }
+
+    protected String getErrorMessage() {
+        return languageManager.get("main_messages", "failed.login");
+    }
+
+    protected abstract void tryToLogInAccount(String[] decryptedData);
 }

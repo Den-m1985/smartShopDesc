@@ -1,10 +1,10 @@
 package org.example.service;
 
 import org.example.controller.TabController;
-import org.example.service.alfa812.StartAlfa812;
-import org.example.service.bolshe_podarkov.StartBolshePodarkov;
-import org.example.service.compare_files.StartCompareFiles;
-import org.example.service.sadovod.StartSadovod;
+import org.example.service.product.alfa812.StartAlfa812;
+import org.example.service.product.bolshe_podarkov.StartBolshePodarkov;
+import org.example.service.product.compare_files.StartCompareFiles;
+import org.example.service.product.sadovod.StartSadovod;
 import org.example.ui.tabbed_pane.ButtonStart;
 
 import javax.swing.*;

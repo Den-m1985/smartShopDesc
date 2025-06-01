@@ -1,6 +1,7 @@
 package org.example.service.browser;
 
 import org.example.service.browser.chrome.BrowserManager;
+import org.example.service.util.WebElementsUtil;
 
 public class OpenWebPage {
 
@@ -8,4 +9,7 @@ public class OpenWebPage {
         browserManager.getDriver().get(address);
     }
 
+    public OpenWebPage(WebElementsUtil webElementsUtil, String address) {
+        webElementsUtil.openPage(address);
+    }
 }

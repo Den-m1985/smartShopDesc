@@ -12,18 +12,12 @@ import java.util.List;
 public abstract class AbstractCsvFilter {
     private final List<DtoError> error = new ArrayList<>();
 
-    protected abstract <T> List<T> csvFilter(String fileName);
+    protected abstract <T> List<T> csvFilter(String fileName, int lengthRow);
 
     protected List<String[]> getRawRows(String fileName, int lengthRow) {
         String encoding = TextLinks.ENCODING.getString();
         List<String[]> rowsArray = new CsvRead().readCSV(fileName, encoding);
         List<String[]> rows = new SeparateGoods().separateArray(rowsArray, lengthRow);
-
-//        int difference = rowsArray.size() - rows.size();
-//        if (difference > 0) {
-//            String message = rowsArray.size() + " строк не вошли в диапазон количества колонок. Разница: " + difference + " колонок.";
-//            error.add(new DtoError("", "", message));
-//        }
 
         new DeleteQuotes(rows);
         return rows;
