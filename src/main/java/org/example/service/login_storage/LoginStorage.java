@@ -2,8 +2,8 @@ package org.example.service.login_storage;
 
 import org.example.enums.NameProducts;
 import org.example.enums.TextLinks;
-import org.example.service.txt.ReadTxtFile;
-import org.example.service.txt.WriteTxt;
+import org.example.service.file_work.txt.ReadTxtFile;
+import org.example.service.file_work.txt.WriteTxt;
 
 import javax.crypto.spec.SecretKeySpec;
 import java.io.File;

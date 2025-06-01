@@ -10,8 +10,8 @@ import java.util.List;
 public class SadovodCsvFilter extends AbstractCsvFilter {
 
     @Override
-    public List<SadovodCSV> csvFilter(String fileName) {
-        List<String[]> rows = getRawRows(fileName, 6);
+    public List<SadovodCSV> csvFilter(String fileName, int lengthRow) {
+        List<String[]> rows = getRawRows(fileName, lengthRow);
 
         List<SadovodCSV> dataWithItem = new SadovodGoodsOnly().findOnlyGoods(rows, 4, 5);
 
