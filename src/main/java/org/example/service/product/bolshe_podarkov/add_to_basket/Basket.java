@@ -1,8 +1,8 @@
-package org.example.service.product.bolshe_podarkov.search_and_add.addToBasket;
+package org.example.service.product.bolshe_podarkov.add_to_basket;
 
 import org.example.controller.TabController;
 import org.example.service.BasicLanguageManager;
-import org.example.service.browser.chrome.BrowserManager;
+import org.example.service.util.WebElementsUtil;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
@@ -10,13 +10,13 @@ import javax.swing.*;
 import java.util.List;
 
 public class Basket extends BasicLanguageManager {
-    private final BrowserManager browserManager;
+    private final WebElementsUtil webElementsUtil;
 
-    public Basket(BrowserManager browserManager, TabController tabController) {
-        this.browserManager = browserManager;
+    public Basket(WebElementsUtil webElementsUtil, TabController tabController) {
+        this.webElementsUtil = webElementsUtil;
 
         String basket = languageManager.get("bolshe_pod", "basket.address");
-        browserManager.getDriver().get(basket);
+        webElementsUtil.getDriver().get(basket);
         // if basket have goods
         if (checkBasket() != 0) {
             int option = dialogClearBasket();
@@ -25,7 +25,7 @@ public class Basket extends BasicLanguageManager {
                 if (checkBasket() != 0) {
                     int errorOption = dialogErrorBasket();
                     if (errorOption == 0)
-                        browserManager.getDriver().close();
+                        webElementsUtil.getDriver().close();
                 }
             }
         } else {
@@ -37,14 +37,14 @@ public class Basket extends BasicLanguageManager {
 
     public int checkBasket() {
         String basketItem = languageManager.get("bolshe_pod", "basket.item");
-        List<WebElement> cart = browserManager.getDriver().findElements(By.className(basketItem));
+        List<WebElement> cart = webElementsUtil.getDriver().findElements(By.className(basketItem));
         return cart.size();
     }
 
 
     public void clearBasket() {
         String clearBasket = languageManager.get("bolshe_pod", "basket.clear");
-        WebElement removeItemButton = browserManager.getDriver().findElement(By.className(clearBasket));
+        WebElement removeItemButton = webElementsUtil.getDriver().findElement(By.className(clearBasket));
         removeItemButton.click();
     }
 

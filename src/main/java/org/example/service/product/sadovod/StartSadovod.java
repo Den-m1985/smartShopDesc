@@ -1,6 +1,6 @@
 package org.example.service.product.sadovod;
 
-import org.example.DTO.DtoError;
+import org.example.dto.DtoError;
 import org.example.controller.TabController;
 import org.example.enums.FileExtension;
 import org.example.enums.TextLinks;

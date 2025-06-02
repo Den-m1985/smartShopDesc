@@ -10,22 +10,7 @@ import java.time.Duration;
 public class DriverChrome {
 
     public WebDriver getDriverChrome() {
-        /*
-        Это облегчит процесс обновления ChromeDriver и поможет вам использовать актуальную версию.
-         После добавления этой зависимости вы можете использовать следующий код
-         для автоматической загрузки актуальной версии ChromeDriver:
-         */
-        //WebDriverManager.chromedriver().setup();
 
-
-        // установливаем зависимость, определяющую путь к chromedriver
-        // https://googlechromelabs.github.io/chrome-for-testing/
-        // https://chromedriver.chromium.org/downloads
-        //String chromedriverPath = System.getProperty("user.home") + File.separator +
-        //"chromedriver_win32" + File.separator + "chromedriver.exe";
-        //System.setProperty("webdriver.chrome.driver", chromedriverPath);
-
-        //https://peter.sh/experiments/chromium-command-line-switches/
         ChromeOptions options = new ChromeOptions();
         //https://www.selenium.dev/documentation/webdriver/drivers/options/#pageloadstrategy
         options.setPageLoadStrategy(PageLoadStrategy.EAGER); // ускорение загрузки сайта
@@ -48,7 +33,7 @@ public class DriverChrome {
         использование опции `--no-sandbox` следует рассматривать с осторожностью и только в
         тех случаях, когда это необходимо и безопасно.
          */
-        //options.addArguments("--no-sandbox"); // Отключение песочницы
+        //options.addArguments("--no-sandbox");
 
         /*
         Опция `--disable-dev-shm-usage` в настройках ChromeDriver отключает
@@ -66,20 +51,18 @@ public class DriverChrome {
         Важно отметить, что использование этой опции может повысить использование памяти,
         поскольку временные файлы будут храниться в файловой системе, а не в оперативной памяти.
          */
-        //options.addArguments("--disable-dev-shm-usage"); // Отключение использования /dev/shm
+        //options.addArguments("--disable-dev-shm-usage");
 
         WebDriver chromeDriver = new ChromeDriver(options);
 
          /*
         Ожидание каждый раз когда выполняется команда на сайте
         Таким образом, если элемент не найден, то драйвер будет ждать его появления
-        в течении заданного времени (10 секунд) и шагом в 500 мс.
+        в течении заданного времени и шагом в 500 мс.
         Как только элемент будет найден, драйвер продолжит работу, однако,
         в противном случае тест упадем по истечению времени
         https://www.selenium.dev/documentation/webdriver/waits/
          */
-        //Duration duration = Duration.ofSeconds(10);
-        //driver.manage().timeouts().implicitlyWait(duration);
         chromeDriver.manage().timeouts().implicitlyWait(Duration.ofMillis(500));
 
         return chromeDriver;

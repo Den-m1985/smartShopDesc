@@ -1,6 +1,6 @@
 package org.example.service.csv_filter;
 
-import org.example.DTO.DtoError;
+import org.example.dto.DtoError;
 import org.example.enums.TextLinks;
 import org.example.service.csv_filter.csv.CsvRead;
 import org.example.service.csv_filter.csv.DeleteQuotes;

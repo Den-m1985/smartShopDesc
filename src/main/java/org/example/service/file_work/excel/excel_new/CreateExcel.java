@@ -3,7 +3,7 @@ package org.example.service.file_work.excel.excel_new;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.example.DTO.DtoError;
+import org.example.dto.DtoError;
 import org.example.enums.TextLinks;
 
 import java.util.List;

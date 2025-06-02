@@ -1,12 +1,12 @@
 package org.example.service.product.alfa812;
 
-import org.example.DTO.DtoError;
+import org.example.dto.DtoError;
 import org.example.controller.TabController;
 import org.example.enums.FileExtension;
 import org.example.service.AbstractStartProcess;
 import org.example.service.product.alfa812.login.Alfa812LogIn;
 import org.example.service.product.alfa812.search_and_add.CloudWindow;
-import org.example.service.product.alfa812.search_and_add.SearchProcess;
+import org.example.service.product.alfa812.search.SearchProcess;
 import org.example.service.product.alfa812.search_and_add.ShoppingCart;
 import org.example.service.browser.OpenWebPage;
 import org.example.service.browser.chrome.BrowserManager;

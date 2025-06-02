@@ -1,13 +1,13 @@
-package org.example.service.product.bolshe_podarkov.search_and_add.checkGood;
+package org.example.service.product.bolshe_podarkov.check_good;
 
 import org.example.service.BasicLanguageManager;
 import org.example.service.browser.chrome.BrowserManager;
 import org.openqa.selenium.WebElement;
 
-public class GetPrice extends BasicLanguageManager {
+public class ProductPrice extends BasicLanguageManager {
 private final BrowserManager browserManager;
 
-    public GetPrice(BrowserManager browserManager) {
+    public ProductPrice(BrowserManager browserManager) {
         this.browserManager = browserManager;
     }
 

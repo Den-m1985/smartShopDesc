@@ -57,7 +57,8 @@ public class WebElementsUtil extends BrowserManager {
     }
 
     public boolean isEnterAccount(By by, String exitField) {
-        WebElement element = getDriver().findElement(by);
+        WebElement element = getWait().until(
+                ExpectedConditions.visibilityOfElementLocated(by));
         String str = element.getText();
         List<String> array = Arrays.stream(str.split(" ")).toList();
         return array.contains(exitField);
@@ -70,6 +71,14 @@ public class WebElementsUtil extends BrowserManager {
     public List<WebElement> getAllProducts(By by) {
         getWait().until(ExpectedConditions.presenceOfAllElementsLocatedBy(by));
         return getElements(by);
+    }
+
+    public String getText(By by) {
+        if (isElementAvailable(by)) {
+            WebElement webElement = getWait().until(ExpectedConditions.elementToBeClickable(by));
+            return webElement.getText();
+        }
+        return "";
     }
 
 }

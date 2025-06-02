@@ -2,7 +2,7 @@ package org.example.controller;
 
 import org.example.enums.FileExtension;
 import org.example.enums.NameProducts;
-import org.example.model.FilePathManager;
+import org.example.service.FilePathManager;
 import org.example.service.BasicLanguageManager;
 import org.example.service.StartButtonTask;
 import org.example.ui.tabbed_pane.ButtonStart;

@@ -1,7 +1,7 @@
 package org.example.service.file_work.excel.excel_new;
 
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.example.DTO.DtoError;
+import org.example.dto.DtoError;
 import org.example.controller.TabController;
 import org.example.enums.TextLinks;
 import org.example.service.create_path_file.CreatePathFile;

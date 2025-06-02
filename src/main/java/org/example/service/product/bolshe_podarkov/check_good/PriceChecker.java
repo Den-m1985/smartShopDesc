@@ -1,9 +1,9 @@
-package org.example.service.product.bolshe_podarkov.search_and_add.checkGood;
+package org.example.service.product.bolshe_podarkov.check_good;
 
-import org.example.DTO.DtoError;
+import org.example.dto.DtoError;
 import org.example.service.csv_filter.csv.StructureCSV;
 
-public class CheckPrice {
+public class PriceChecker {
     int percent;
     String webPrice;
 

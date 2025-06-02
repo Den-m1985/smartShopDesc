@@ -1,8 +1,9 @@
-package org.example.service.product.alfa812.search_and_add;
+package org.example.service.product.alfa812.search;
 
-import org.example.DTO.DtoError;
+import org.example.dto.DtoError;
 import org.example.service.BasicLanguageManager;
 import org.example.service.csv_filter.csv.StructureCSV;
+import org.example.service.product.alfa812.add_to_cart.AddGoods;
 import org.example.service.util.WebElementsUtil;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;

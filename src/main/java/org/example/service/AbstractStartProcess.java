@@ -5,7 +5,7 @@ import org.example.controller.TabController;
 public abstract class AbstractStartProcess extends BasicLanguageManager {
     protected final TabController tabController;
 
-    public AbstractStartProcess(TabController tabController) {
+    protected AbstractStartProcess(TabController tabController) {
         this.tabController = tabController;
     }
 

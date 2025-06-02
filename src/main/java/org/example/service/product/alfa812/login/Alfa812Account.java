@@ -12,8 +12,9 @@ public class Alfa812Account extends BasicLanguageManager {
     }
 
     public boolean isEnterAccount() {
-        By by = By.id(languageManager.get("alfa812", "field.account"));
-        return webElementsUtil.isEnterAccount(by, languageManager.get("alfa812", "field.exit")
+        return webElementsUtil.isEnterAccount(
+                By.id(languageManager.get("alfa812", "field.account")),
+                languageManager.get("alfa812", "field.exit")
         );
     }
 }

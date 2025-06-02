@@ -12,7 +12,9 @@ public class BolshePodarkovAccount extends BasicLanguageManager {
     }
 
     public boolean isEnterAccount(String login) {
-        By by = By.className(languageManager.get("bolshe_pod", "is.enter.account"));
-        return webElementsUtil.isEnterAccount(by, login);
+        return webElementsUtil.isEnterAccount(
+                By.className(languageManager.get("bolshe_pod", "is.enter.account")),
+                login
+        );
     }
 }

@@ -1,4 +1,4 @@
-package org.example.service.product.bolshe_podarkov.search_and_add.checkGood;
+package org.example.service.product.bolshe_podarkov.check_good;
 
 import org.example.service.BasicLanguageManager;
 import org.example.service.browser.chrome.BrowserManager;

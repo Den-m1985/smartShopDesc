@@ -1,4 +1,4 @@
-package org.example.service.product.alfa812.search_and_add;
+package org.example.service.product.alfa812.search;
 
 public class AnalyzeText {
 

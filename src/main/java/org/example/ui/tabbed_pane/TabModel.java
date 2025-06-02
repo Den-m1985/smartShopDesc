@@ -1,4 +1,4 @@
-package org.example.model;
+package org.example.ui.tabbed_pane;
 
 public class TabModel {
     private String text;

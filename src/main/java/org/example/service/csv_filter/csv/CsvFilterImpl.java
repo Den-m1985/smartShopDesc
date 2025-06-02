@@ -1,6 +1,6 @@
 package org.example.service.csv_filter.csv;
 
-import org.example.DTO.DtoError;
+import org.example.dto.DtoError;
 import org.example.enums.TextLinks;
 import org.example.service.csv_filter.CsvFilter;
 

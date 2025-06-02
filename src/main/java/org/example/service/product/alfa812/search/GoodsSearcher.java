@@ -1,4 +1,4 @@
-package org.example.service.product.alfa812.search_and_add;
+package org.example.service.product.alfa812.search;
 
 import org.example.service.BasicLanguageManager;
 import org.example.service.util.WebElementsUtil;
@@ -11,9 +11,9 @@ public class GoodsSearcher extends BasicLanguageManager {
         this.webElementsUtil = webElementsUtil;
     }
 
-    public void searchGoods(String article) {
+    public void searchGoods(String textToSearch) {
         By searchLocator = By.cssSelector("input.input_search[name='keyword']");
-        webElementsUtil.putTextToInputField(searchLocator, article);
+        webElementsUtil.putTextToInputField(searchLocator, textToSearch);
 
         By buttonLocator = By.cssSelector("input.button_search[type='submit']");
         webElementsUtil.clickElement(buttonLocator);

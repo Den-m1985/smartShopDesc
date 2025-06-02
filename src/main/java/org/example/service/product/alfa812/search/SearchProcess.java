@@ -1,8 +1,10 @@
-package org.example.service.product.alfa812.search_and_add;
+package org.example.service.product.alfa812.search;
 
-import org.example.DTO.DtoError;
+import org.example.dto.DtoError;
 import org.example.service.BasicLanguageManager;
 import org.example.service.csv_filter.csv.StructureCSV;
+import org.example.service.product.alfa812.add_to_cart.AddGoods;
+import org.example.service.product.alfa812.search_and_add.CloudWindow;
 import org.example.service.util.WebElementsUtil;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
@@ -28,7 +30,7 @@ public class SearchProcess extends BasicLanguageManager {
         this.addGoods = new AddGoods(webElementsUtil);
     }
 
-    public void executeProcess(StructureCSV goods) throws InterruptedException {
+    public void executeProcess(StructureCSV goods) {
 
         String goodsName = goods.getName();
         String goodsSize = goods.getArticular();
@@ -41,21 +43,17 @@ public class SearchProcess extends BasicLanguageManager {
 
         cloudWindow.closeModalWindow();
 
-        // TODO эта часть выглядит лишней
         // находим несколько имен в поисковике
         By productsLocator = By.className(languageManager.get("alfa812", "products"));
-//        By productsLocator = By.cssSelector("ul.products li.product");
-        List<WebElement> products = webElementsUtil.getAllProducts(productsLocator);
+        List<WebElement> products = webElementsUtil.getElements(productsLocator);
 
         // проверяем на наличие товара
-//        List<WebElement> product = browserManager.getDriver().findElements(By.className(languageManager.get("alfa812", "product")));
-        By productLocator = By.className(languageManager.get("alfa812", "product"));
-        List<WebElement> product = webElementsUtil.getAllProducts(productLocator);
+        By productLocator = By.cssSelector("div.product");
+        List<WebElement> product = webElementsUtil.getElements(productLocator);
 
         // проверяем на наличие выбора размера
-//        List<WebElement> size = browserManager.getDriver().findElements(By.className(languageManager.get("alfa812", "b1c.option")));
         By productSizeLocator = By.className(languageManager.get("alfa812", "b1c.option"));
-        List<WebElement> size = webElementsUtil.getAllProducts(productSizeLocator);
+        List<WebElement> size = webElementsUtil.getElements(productSizeLocator);
 
 
         // если товара в поисковике более 1шт
