@@ -48,12 +48,13 @@ public class WebElementsUtil extends BrowserManager {
         }
     }
 
-    public void putTextToInputField(By by, String text) {
+    public WebElement putTextToInputField(By by, String text) {
         WebElement inputField = getWait().until(
                 ExpectedConditions.elementToBeClickable(by)
         );
         inputField.clear();
         inputField.sendKeys(text);
+        return inputField;
     }
 
     public boolean isEnterAccount(By by, String exitField) {

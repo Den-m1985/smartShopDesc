@@ -40,7 +40,8 @@ public class ServiceAddToBasket extends BasicLanguageManager {
                 }
             } catch (Exception e) {
                 reportList.add(new DtoError(product.getName(), product.getArticular(),
-                        "Общая ошибка"));
+                        e.getMessage()));
+
             }
         }
     }
