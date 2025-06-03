@@ -1,33 +1,28 @@
 package org.example.service.product.alfa812;
 
-import org.example.dto.DtoError;
 import org.example.controller.TabController;
+import org.example.dto.DtoError;
 import org.example.enums.FileExtension;
 import org.example.service.AbstractStartProcess;
-import org.example.service.product.alfa812.login.Alfa812LogIn;
-import org.example.service.product.alfa812.search_and_add.CloudWindow;
-import org.example.service.product.alfa812.search.SearchProcess;
-import org.example.service.product.alfa812.search_and_add.ShoppingCart;
 import org.example.service.browser.OpenWebPage;
-import org.example.service.browser.chrome.BrowserManager;
 import org.example.service.create_path_file.FileChooserManager;
 import org.example.service.csv_filter.CsvFilter;
 import org.example.service.csv_filter.csv.CsvFilterImpl;
 import org.example.service.csv_filter.csv.StructureCSV;
 import org.example.service.file_work.excel.excel_new.ReportExcelCreator;
+import org.example.service.product.alfa812.login.Alfa812LogIn;
+import org.example.service.product.alfa812.search.SearchProcess;
+import org.example.service.product.alfa812.search_and_add.CloudWindow;
+import org.example.service.product.alfa812.search_and_add.ShoppingCart;
 import org.example.service.util.WebElementsUtil;
 
 import java.util.List;
 
 public class StartAlfa812 extends AbstractStartProcess {
-    private final WebElementsUtil webElementsUtil;
-    private final CloudWindow cloudWindow;
 
     public StartAlfa812(TabController tabController) {
         super(tabController);
         tabController.getExtension().add(new FileExtension[]{FileExtension.CSV});
-        this.webElementsUtil = new WebElementsUtil();
-        this.cloudWindow = new CloudWindow(webElementsUtil);
     }
 
     public void run() {
@@ -46,9 +41,10 @@ public class StartAlfa812 extends AbstractStartProcess {
         tabController.getView().appendToTextArea(languageManager.get("main_messages", "count.rows.csv") + ": " + data.size());
         tabController.getView().appendToTextArea("\n\n");
 
-        BrowserManager browserManager = webElementsUtil;
+        WebElementsUtil webElementsUtil = new WebElementsUtil();
+        CloudWindow cloudWindow = new CloudWindow(webElementsUtil);
 
-        new OpenWebPage(browserManager, languageManager.get("alfa812", "address"));
+        new OpenWebPage(webElementsUtil, languageManager.get("alfa812", "address"));
 
         cloudWindow.closeModalWindow();
 
@@ -78,7 +74,7 @@ public class StartAlfa812 extends AbstractStartProcess {
         cloudWindow.closeModalWindow();
 
         // по завершению заходим в корзину
-        new ShoppingCart(browserManager).clickCart();
+        new ShoppingCart(webElementsUtil).clickCart();
 
         tabController.getView().appendToTextArea(languageManager.get("main_messages", "report.size") + reportList.size());
 

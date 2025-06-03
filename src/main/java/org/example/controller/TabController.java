@@ -16,19 +16,19 @@ import java.util.ArrayList;
 public class TabController extends BasicLanguageManager implements ActionListener {
     private final TabView view;
     private final NameProducts product;
-    private final ArrayList<FileExtension[]> extension;
+    private ArrayList<FileExtension[]> extension;
     private final FilePathManager filePathManager;
     private StartButtonTask startButtonTask;
 
     public TabController(TabView view, NameProducts product) {
         this.view = view;
         this.product = product;
-        extension = new ArrayList<>();
         filePathManager = new FilePathManager();
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        extension = new ArrayList<>();
         JButton button = (JButton) e.getSource();
         ButtonStart buttonStart = new ButtonStart();
         if (startButtonTask == null || startButtonTask.isDone()) {
