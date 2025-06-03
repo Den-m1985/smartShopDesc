@@ -22,6 +22,7 @@ public class Basket extends BasicLanguageManager {
             int option = dialogClearBasket();
             if (option == 0) {
                 clearBasket();
+                webElementsUtil.getDriver().get(basket);
                 if (checkBasket() != 0) {
                     int errorOption = dialogErrorBasket();
                     if (errorOption == 0)
