@@ -5,8 +5,8 @@ import org.example.enums.TextLinks;
 import org.example.enums.TextLinksSadovod;
 import org.example.service.BasicLanguageManager;
 import org.example.service.browser.OpenWebPage;
-import org.example.service.browser.chrome.BrowserManager;
 import org.example.service.util.NumberParser;
+import org.example.service.util.WebElementsUtil;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -14,19 +14,19 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import javax.swing.*;
 
 public class SadovodBasket extends BasicLanguageManager {
-    private final BrowserManager browserManager;
+    private final WebElementsUtil webElementsUtil;
     private final TabController tabController;
     private final NumberParser numberParser;
 
-    public SadovodBasket(BrowserManager browserManager, TabController tabController) {
-        this.browserManager = browserManager;
+    public SadovodBasket(WebElementsUtil webElementsUtil, TabController tabController) {
+        this.webElementsUtil = webElementsUtil;
         this.tabController = tabController;
         this.numberParser = new NumberParser();
     }
 
 
     public void handleBacket() {
-        new OpenWebPage(browserManager, TextLinksSadovod.BASKET_ADDRESS.getString());
+        new OpenWebPage(webElementsUtil, TextLinksSadovod.BASKET_ADDRESS.getString());
 
         String webCartCount = getCountProductInCart();
         int countInCart = numberParser.stringToInt(webCartCount);
@@ -40,7 +40,7 @@ public class SadovodBasket extends BasicLanguageManager {
                 if (count != 0) {
                     int errorOption = dialogErrorBasket();
                     if (errorOption == 0)
-                        browserManager.getDriver().quit();
+                        webElementsUtil.getDriver().quit();
                 }
             }
         } else {
@@ -51,34 +51,17 @@ public class SadovodBasket extends BasicLanguageManager {
     }
 
     private String getCountProductInCart() {
-        By by = By.className("ty-minicart-count");
-        WebElement price = browserManager.getWait().until(
-                ExpectedConditions.visibilityOfElementLocated(by)
-        );
-        return price.getText();
+        By by = By.className(TextLinksSadovod.COUNT_PRODUCT_IN_CART.getString());
+        return webElementsUtil.getText(by);
     }
 
     public void clearBasket() {
-        By by = By.cssSelector("a.ty-btn__tertiary[href*='checkout.clear']");
-        if (isButtonAvailable(by)) {
-            WebElement button = browserManager.getWait().until(
-                    ExpectedConditions.elementToBeClickable(by)
-            );
-            button.click();
-        }
+        By by = By.cssSelector(TextLinksSadovod.CLEAR_BASKET.getString());
+        WebElement button = webElementsUtil.getWait().until(
+                ExpectedConditions.elementToBeClickable(by)
+        );
+        button.click();
     }
-
-    public boolean isButtonAvailable(By by) {
-        try {
-            WebElement button = browserManager.getWait().until(
-                    ExpectedConditions.visibilityOfElementLocated(by)
-            );
-            return button.isDisplayed() && button.isEnabled();
-        } catch (Exception e) {
-            return false;
-        }
-    }
-
 
     private int dialogClearBasket() {
         Object[] options = {"Очистить корзину", "Оставить"};

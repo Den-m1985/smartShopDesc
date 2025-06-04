@@ -9,6 +9,7 @@ import org.example.service.product.sadovod.search.check_good.CartButtonVerifier;
 import org.example.service.product.sadovod.search.check_good.GetPrice;
 import org.example.service.product.sadovod.search.check_good.OptionChooser;
 import org.example.service.product.sadovod.search.check_good.PriceChecker;
+import org.example.service.util.WebElementsUtil;
 
 import java.util.List;
 
@@ -21,14 +22,14 @@ public class ProductManager {
     private final CartButtonVerifier checkAvailability;
     private final OptionChooser optionChooser;
 
-    public ProductManager(BrowserManager browserManager, List<DtoError> errorMessages) {
+    public ProductManager(WebElementsUtil webElementsUtil, List<DtoError> errorMessages) {
         this.errorMessages = errorMessages;
-        this.cardOpener = new ProductCardOpener(browserManager);
+        this.cardOpener = new ProductCardOpener(webElementsUtil);
         this.priceChecker = new PriceChecker();
-        this.cartAdder = new CartAdder(browserManager);
-        this.getPrice = new GetPrice(browserManager);
-        this.checkAvailability = new CartButtonVerifier(browserManager);
-        this.optionChooser = new OptionChooser(browserManager);
+        this.cartAdder = new CartAdder(webElementsUtil);
+        this.getPrice = new GetPrice(webElementsUtil);
+        this.checkAvailability = new CartButtonVerifier(webElementsUtil);
+        this.optionChooser = new OptionChooser(webElementsUtil);
     }
 
     public void processProduct(SadovodCSV product) {

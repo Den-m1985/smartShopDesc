@@ -1,13 +1,12 @@
 package org.example.service.product.sadovod;
 
-import org.example.dto.DtoError;
 import org.example.controller.TabController;
+import org.example.dto.DtoError;
 import org.example.enums.FileExtension;
 import org.example.enums.TextLinks;
 import org.example.enums.TextLinksSadovod;
 import org.example.service.AbstractStartProcess;
 import org.example.service.browser.OpenWebPage;
-import org.example.service.browser.chrome.BrowserManager;
 import org.example.service.create_path_file.FileChooserManager;
 import org.example.service.csv_filter.SadovodCsvFilter;
 import org.example.service.csv_filter.sadovod.SadovodCSV;
@@ -15,10 +14,13 @@ import org.example.service.file_work.excel.excel_new.ReportExcelCreator;
 import org.example.service.product.sadovod.login.SadovodLogin;
 import org.example.service.product.sadovod.search.GoodsHandlerFromSadovod;
 import org.example.service.product.sadovod.search.add_to_backet.SadovodBasket;
+import org.example.service.util.WebElementsUtil;
 
 import java.util.List;
 
 public class StartSadovod extends AbstractStartProcess {
+    private WebElementsUtil webElementsUtil;
+
     public StartSadovod(TabController tabController) {
         super(tabController);
         tabController.getExtension().add(new FileExtension[]{FileExtension.CSV});
@@ -40,27 +42,33 @@ public class StartSadovod extends AbstractStartProcess {
 
         printText(TextLinks.COUNT_ROWS_CSV.getString() + data.size());
 
-        BrowserManager browserManager = new BrowserManager();
+        webElementsUtil = new WebElementsUtil();
 
-        new OpenWebPage(browserManager, TextLinksSadovod.ADDRESS.getString());
+        new OpenWebPage(webElementsUtil, TextLinksSadovod.ADDRESS.getString());
 
-        new SadovodLogin(browserManager).tryToLogInAccount();
+        new SadovodLogin(webElementsUtil).tryToLogInAccount();
 
-        new SadovodBasket(browserManager, tabController).handleBacket();
+        new SadovodBasket(webElementsUtil, tabController).handleBacket();
 
-        new GoodsHandlerFromSadovod(browserManager, reportList).processProductsForPurchase(data);
+        new GoodsHandlerFromSadovod(webElementsUtil, reportList).processProductsForPurchase(data);
 
-        new OpenWebPage(browserManager, TextLinksSadovod.BASKET_ADDRESS.getString());
+        new OpenWebPage(webElementsUtil, TextLinksSadovod.BASKET_ADDRESS.getString());
 
         printText(TextLinks.REPORT_SIZE.getString() + reportList.size());
 
         if (!reportList.isEmpty())
             new ReportExcelCreator(tabController).createReportExcel(reportList, TextLinksSadovod.FILE_NAME_SAVE.getString());
+
+        cancelDriver();
     }
 
-    private void printText(String text){
+    private void printText(String text) {
         tabController.getView().appendToTextArea("\n\n");
         tabController.getView().appendToTextArea(text);
+    }
+
+    public void cancelDriver() {
+        webElementsUtil.getDriver().quit();
     }
 
 }
