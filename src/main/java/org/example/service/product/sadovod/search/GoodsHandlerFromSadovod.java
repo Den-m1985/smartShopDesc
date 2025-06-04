@@ -2,9 +2,9 @@ package org.example.service.product.sadovod.search;
 
 import org.example.dto.DtoError;
 import org.example.enums.TextLinks;
-import org.example.service.browser.chrome.BrowserManager;
 import org.example.service.csv_filter.sadovod.SadovodCSV;
 import org.example.service.product.sadovod.search.check_good.GoodsCountChecker;
+import org.example.service.util.WebElementsUtil;
 
 import java.util.List;
 
@@ -14,11 +14,11 @@ public class GoodsHandlerFromSadovod {
     private final GoodsCountChecker goodsCountChecker;
     private final ProductManager productManager;
 
-    public GoodsHandlerFromSadovod(BrowserManager browserManager, List<DtoError> reportList) {
+    public GoodsHandlerFromSadovod(WebElementsUtil webElementsUtil, List<DtoError> reportList) {
         this.reportList = reportList;
-        this.goodsSearcher = new GoodsSearcher(browserManager);
-        this.goodsCountChecker = new GoodsCountChecker(browserManager);
-        this.productManager = new ProductManager(browserManager, this.reportList);
+        this.goodsSearcher = new GoodsSearcher(webElementsUtil);
+        this.goodsCountChecker = new GoodsCountChecker(webElementsUtil);
+        this.productManager = new ProductManager(webElementsUtil, this.reportList);
     }
 
     public void processProductsForPurchase(List<SadovodCSV> data) {

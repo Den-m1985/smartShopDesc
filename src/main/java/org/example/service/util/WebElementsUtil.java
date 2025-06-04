@@ -2,6 +2,7 @@ package org.example.service.util;
 
 import org.example.service.browser.chrome.BrowserManager;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
@@ -9,10 +10,6 @@ import java.util.Arrays;
 import java.util.List;
 
 public class WebElementsUtil extends BrowserManager {
-
-    public void openPage(String url) {
-        getDriver().get(url);
-    }
 
     public void clickElement(By by) {
         if (isElementAvailable(by)) {
@@ -69,17 +66,18 @@ public class WebElementsUtil extends BrowserManager {
         return getDriver().findElements(by);
     }
 
-    public List<WebElement> getAllProducts(By by) {
-        getWait().until(ExpectedConditions.presenceOfAllElementsLocatedBy(by));
-        return getElements(by);
-    }
-
     public String getText(By by) {
         if (isElementAvailable(by)) {
-            WebElement webElement = getWait().until(ExpectedConditions.elementToBeClickable(by));
+            WebElement webElement = getWait().until(ExpectedConditions.visibilityOfElementLocated(by));
             return webElement.getText();
         }
         return "";
     }
 
+    public void readyStateDocument(){
+        getWait().until(
+                webDriver -> ((JavascriptExecutor) webDriver)
+                        .executeScript("return document.readyState").equals("complete")
+        );
+    }
 }

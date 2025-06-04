@@ -1,23 +1,19 @@
 package org.example.service.product.sadovod.search.check_good;
 
-import org.example.service.browser.chrome.BrowserManager;
+import org.example.enums.TextLinksSadovod;
+import org.example.service.util.WebElementsUtil;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 
 public class GetPrice {
-    private final BrowserManager browserManager;
+    private final WebElementsUtil webElementsUtil;
 
-    public GetPrice(BrowserManager browserManager) {
-        this.browserManager = browserManager;
+    public GetPrice(WebElementsUtil webElementsUtil) {
+        this.webElementsUtil = webElementsUtil;
     }
 
     public String getPriceFromWeb() {
-        By by = By.className("ty-price-num");
-        WebElement price = browserManager.getWait().until(
-                ExpectedConditions.visibilityOfElementLocated(by)
-        );
-        return price.getText();
+        By by = By.className(TextLinksSadovod.PRICE_LOCATOR.getString());
+        return webElementsUtil.getText(by);
     }
 
 }

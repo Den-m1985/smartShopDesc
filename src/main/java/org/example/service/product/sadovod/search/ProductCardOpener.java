@@ -1,30 +1,20 @@
 package org.example.service.product.sadovod.search;
 
-import org.example.service.browser.chrome.BrowserManager;
+import org.example.enums.TextLinksSadovod;
+import org.example.service.util.WebElementsUtil;
 import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 
 public class ProductCardOpener {
-    private final BrowserManager browserManager;
+    private final WebElementsUtil webElementsUtil;
 
-    public ProductCardOpener(BrowserManager browserManager) {
-        this.browserManager = browserManager;
+    public ProductCardOpener(WebElementsUtil webElementsUtil) {
+        this.webElementsUtil = webElementsUtil;
     }
 
     public void openProductDetails() {
-        By productPreviewLocator = By.cssSelector(".ut2-gl__item");
+        By productPreviewLocator = By.cssSelector(TextLinksSadovod.PRODUCT_PREVIEW_LOCATOR.getString());
+        webElementsUtil.clickElement(productPreviewLocator);
 
-        WebElement productCard = browserManager.getWait().until(
-                ExpectedConditions.elementToBeClickable(productPreviewLocator)
-        );
-        productCard.click();
-
-        browserManager.getWait().until(
-                webDriver -> ((JavascriptExecutor) webDriver)
-                        .executeScript("return document.readyState").equals("complete")
-        );
+        webElementsUtil.readyStateDocument();
     }
-
 }
