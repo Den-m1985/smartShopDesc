@@ -1,6 +1,8 @@
 package org.example.service.product.sadovod.login;
 
+import org.example.controller.TabController;
 import org.example.enums.TextLinksSadovod;
+import org.example.service.browser.login.AbstractLoginPage;
 import org.example.service.util.WebElementsUtil;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
@@ -8,24 +10,23 @@ import org.openqa.selenium.WebElement;
 import java.time.Duration;
 import java.util.List;
 
-public class SadovodLogin {
-    private final WebElementsUtil webElementsUtil;
-    private final Duration timeoutDuration;
+public class SadovodLogin extends AbstractLoginPage {
 
-    public SadovodLogin(WebElementsUtil webElementsUtil) {
+    public SadovodLogin(WebElementsUtil webElementsUtil, TabController tabController) throws Exception {
+        super(webElementsUtil, tabController);
         this.webElementsUtil = webElementsUtil;
-        timeoutDuration = Duration.ofMinutes(5);
     }
 
-    public void tryToLogInAccount() {
-        // TODO брать логин из файла
+    @Override
+    protected void tryToLogInAccount(String[] decryptedData) {
         By emailLocator = By.cssSelector(TextLinksSadovod.EMAIL_LOCATOR.getString());
         clickButtonEmail(emailLocator);
 
         By loginLocator = By.id(TextLinksSadovod.LOGIN_FIELD.getString());
-        webElementsUtil.putTextToInputField(loginLocator, TextLinksSadovod.EMAIL.getString());
+        webElementsUtil.putTextToInputField(loginLocator, decryptedData[0]);
 
-        if(!waitToAuth()){
+        Duration timeoutDuration = Duration.ofMinutes(5);
+        if (!waitToAuth(timeoutDuration)) {
             throw new RuntimeException("Авторизация не прошла в течении " + timeoutDuration.toSeconds() + " с");
         }
     }
@@ -40,7 +41,7 @@ public class SadovodLogin {
         }
     }
 
-    private boolean waitToAuth(){
+    private boolean waitToAuth(Duration timeoutDuration) {
         Duration pollIntervalMillis = Duration.ofMillis(500);
         By by = By.cssSelector(TextLinksSadovod.LOGIN_BUTTON_BY_EMAIL.getString());
         long startTime = System.currentTimeMillis();
