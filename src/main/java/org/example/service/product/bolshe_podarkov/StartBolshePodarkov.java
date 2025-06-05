@@ -4,6 +4,7 @@ import org.example.controller.TabController;
 import org.example.dto.DtoError;
 import org.example.enums.FileExtension;
 import org.example.service.AbstractStartProcess;
+import org.example.service.BaseProductTask;
 import org.example.service.browser.OpenWebPage;
 import org.example.service.create_path_file.FileChooserManager;
 import org.example.service.csv_filter.CsvFilter;
@@ -18,7 +19,7 @@ import org.openqa.selenium.By;
 
 import java.util.List;
 
-public class StartBolshePodarkov extends AbstractStartProcess {
+public class StartBolshePodarkov extends AbstractStartProcess implements BaseProductTask {
     private WebElementsUtil webElementsUtil;
 
     public StartBolshePodarkov(TabController tabController) {
@@ -71,6 +72,7 @@ public class StartBolshePodarkov extends AbstractStartProcess {
        Используем метод `quit()` вместо `close()`,
        чтобы гарантировать полное закрытие драйвера и освобождение всех связанных с ним ресурсов
     */
+    @Override
     public void cancelDriver() {
         webElementsUtil.getDriver().quit();
     }

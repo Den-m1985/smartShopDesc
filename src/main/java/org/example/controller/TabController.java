@@ -36,7 +36,7 @@ public class TabController extends BasicLanguageManager implements ActionListene
             startButtonTask = new StartButtonTask(this);
             startButtonTask.execute();
         } else {
-//            startButtonTask.cancelDriver();
+            startButtonTask.cancelDriver();
             buttonStart.setLoadingState(button, false);
             startButtonTask = null;
             view.appendToTextArea("\n\n");

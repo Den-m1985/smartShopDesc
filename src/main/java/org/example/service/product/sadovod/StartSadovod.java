@@ -6,6 +6,7 @@ import org.example.enums.FileExtension;
 import org.example.enums.TextLinks;
 import org.example.enums.TextLinksSadovod;
 import org.example.service.AbstractStartProcess;
+import org.example.service.BaseProductTask;
 import org.example.service.browser.OpenWebPage;
 import org.example.service.create_path_file.FileChooserManager;
 import org.example.service.csv_filter.SadovodCsvFilter;
@@ -18,7 +19,7 @@ import org.example.service.util.WebElementsUtil;
 
 import java.util.List;
 
-public class StartSadovod extends AbstractStartProcess {
+public class StartSadovod extends AbstractStartProcess implements BaseProductTask {
     private WebElementsUtil webElementsUtil;
 
     public StartSadovod(TabController tabController) {
@@ -67,6 +68,7 @@ public class StartSadovod extends AbstractStartProcess {
         tabController.getView().appendToTextArea(text);
     }
 
+    @Override
     public void cancelDriver() {
         webElementsUtil.getDriver().quit();
     }

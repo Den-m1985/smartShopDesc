@@ -10,10 +10,11 @@ import org.example.ui.tabbed_pane.ButtonStart;
 import javax.swing.*;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class StartButtonTask extends SwingWorker<Void, String> {
     private final LanguageManager languageManager = LanguageManager.getInstance();
-    //    private final AtomicReference<StartBolshePodarkov> bolshePodarkovRef = new AtomicReference<>();
+    private final AtomicReference<BaseProductTask> currentTaskRef = new AtomicReference<>();
     private final TabController tabController;
 
     public StartButtonTask(TabController tabController) {
@@ -27,12 +28,14 @@ public class StartButtonTask extends SwingWorker<Void, String> {
             case BOLSHE_PODARKOV -> {
                 publish("\nstart: " + name);
                 StartBolshePodarkov bolshePodarkov = new StartBolshePodarkov(tabController);
-//                bolshePodarkovRef.set(bolshePodarkov);
+                currentTaskRef.set(bolshePodarkov);
                 bolshePodarkov.run();
             }
             case ALFA_812 -> {
                 publish("\nstart: " + name);
-                new StartAlfa812(tabController).run();
+                StartAlfa812 startAlfa812 = new StartAlfa812(tabController);
+                currentTaskRef.set(startAlfa812);
+                startAlfa812.run();
             }
             case COMPARE_2_FILES -> {
                 publish("\nstart: " + name);
@@ -40,7 +43,9 @@ public class StartButtonTask extends SwingWorker<Void, String> {
             }
             case SADOVOD -> {
                 publish("\nstart: " + name);
-                new StartSadovod(tabController).run();
+                StartSadovod sadovod = new StartSadovod(tabController);
+                currentTaskRef.set(sadovod);
+                sadovod.run();
             }
         }
         return null;
@@ -64,14 +69,13 @@ public class StartButtonTask extends SwingWorker<Void, String> {
         }
     }
 
-    // TODO оставлено для нового функционала по отмене действий.
-//    public void cancelDriver() {
-//        StartBolshePodarkov bolshePodarkov = bolshePodarkovRef.get();
-//        if (bolshePodarkov != null) {
-//            bolshePodarkov.cancelDriver();
-//        } else {
-//            System.out.println("bolshePodarkov is null. Cannot cancel driver.");
-//        }
-//    }
+    public void cancelDriver() {
+        BaseProductTask currentTask = currentTaskRef.get();
+        if (currentTask != null) {
+            currentTask.cancelDriver();
+        } else {
+            publish("\nNo active task to cancel");
+        }
+    }
 
 }
