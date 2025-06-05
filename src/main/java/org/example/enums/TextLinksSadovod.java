@@ -1,7 +1,6 @@
 package org.example.enums;
 
 public enum TextLinksSadovod {
-    EMAIL("kashleva88@mail.ru"),
     ADDRESS("https://catalog-sadovod.ru/login"),
     BASKET_ADDRESS("https://catalog-sadovod.ru/cart/"),
     LOGIN_BUTTON_BY_EMAIL("li.ty-account-info__item.ty-dropdown-box__item.ty-account-info__name"),

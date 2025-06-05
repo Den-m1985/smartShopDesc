@@ -31,7 +31,7 @@ public class StartSadovod extends AbstractStartProcess {
     }
 
     @Override
-    protected void startController() {
+    protected void startController() throws Exception {
         new FileChooserManager(tabController);
 
         String csvPathFile = tabController.getFilePathManager().getFilePaths(FileExtension.CSV);
@@ -46,7 +46,7 @@ public class StartSadovod extends AbstractStartProcess {
 
         new OpenWebPage(webElementsUtil, TextLinksSadovod.ADDRESS.getString());
 
-        new SadovodLogin(webElementsUtil).tryToLogInAccount();
+        new SadovodLogin(webElementsUtil, tabController);
 
         new SadovodBasket(webElementsUtil, tabController).handleBacket();
 
