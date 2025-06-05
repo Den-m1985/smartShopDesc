@@ -14,7 +14,6 @@ public class SadovodLogin extends AbstractLoginPage {
 
     public SadovodLogin(WebElementsUtil webElementsUtil, TabController tabController) throws Exception {
         super(webElementsUtil, tabController);
-        this.webElementsUtil = webElementsUtil;
     }
 
     @Override

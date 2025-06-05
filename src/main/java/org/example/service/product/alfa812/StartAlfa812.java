@@ -4,6 +4,7 @@ import org.example.controller.TabController;
 import org.example.dto.DtoError;
 import org.example.enums.FileExtension;
 import org.example.service.AbstractStartProcess;
+import org.example.service.BaseProductTask;
 import org.example.service.browser.OpenWebPage;
 import org.example.service.create_path_file.FileChooserManager;
 import org.example.service.csv_filter.CsvFilter;
@@ -18,7 +19,8 @@ import org.example.service.util.WebElementsUtil;
 
 import java.util.List;
 
-public class StartAlfa812 extends AbstractStartProcess {
+public class StartAlfa812 extends AbstractStartProcess implements BaseProductTask {
+    private WebElementsUtil webElementsUtil;
 
     public StartAlfa812(TabController tabController) {
         super(tabController);
@@ -41,7 +43,7 @@ public class StartAlfa812 extends AbstractStartProcess {
         tabController.getView().appendToTextArea(languageManager.get("main_messages", "count.rows.csv") + ": " + data.size());
         tabController.getView().appendToTextArea("\n\n");
 
-        WebElementsUtil webElementsUtil = new WebElementsUtil();
+        webElementsUtil = new WebElementsUtil();
         CloudWindow cloudWindow = new CloudWindow(webElementsUtil);
 
         new OpenWebPage(webElementsUtil, languageManager.get("alfa812", "address"));
@@ -85,6 +87,11 @@ public class StartAlfa812 extends AbstractStartProcess {
         При закрытии браузера список покупок не сохраняется.
         DriverChrome.getChromeDriver().quit();
          */
+    }
+
+    @Override
+    public void cancelDriver() {
+        webElementsUtil.getDriver().quit();
     }
 
 }
