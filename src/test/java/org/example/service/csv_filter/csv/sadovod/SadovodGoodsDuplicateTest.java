@@ -13,21 +13,21 @@ class SadovodGoodsDuplicateTest {
     @Test
     void duplicateGoodsTest() {
         List<SadovodCSV> inputData = List.of(
-                new SadovodCSV("FORZA Кольцо-подставка для смартфона, 6,5x3x0,1см, фэйс", "(12-470-011)", 17, 1, "Обувь", "48"),
-                new SadovodCSV("FORZA Кольцо-подставка для смартфона, 6,5x3x0,1см, фэйс", "(12-470-011)", 17, 1, "Обувь", "48"),
-                new SadovodCSV("FORZA Кольцо-подставка для смартфона, 6,5x3x0,1см, фэйс", "(12-470-011)", 17, 1, "Обувь", "48"),
-                new SadovodCSV("FORZA Кольцо-подставка для смартфона, 6,5x3x0,1см, фэйс", "(12-470-011)", 17, 1, "Обувь", "44"),
-                new SadovodCSV("FORZA Кольцо-подставка для смартфона, 6,5x3x0,1см, фэйс", "(12-470-011)", 17, 1, "Обувь", "44"),
-                new SadovodCSV("INBLOOM  Заборчик декоративный Цветок 10шт, 15x33 см", "(44-172-003)", 87, 4, "Обувь", "48"),
-                new SadovodCSV("INBLOOM  Заборчик декоративный Цветок 10шт, 15x33 см", "(44-172-003)", 87, 4, "Обувь", "48")
+                new SadovodCSV("FORZA Кольцо-подставка для смартфона, 6,5x3x0,1см, фэйс", "(12-470-011)", "48", 1, 1),
+                new SadovodCSV("FORZA Кольцо-подставка для смартфона, 6,5x3x0,1см, фэйс", "(12-470-011)", "48", 1, 1),
+                new SadovodCSV("FORZA Кольцо-подставка для смартфона, 6,5x3x0,1см, фэйс", "(12-470-011)", "48", 1, 1),
+                new SadovodCSV("FORZA Кольцо-подставка для смартфона, 6,5x3x0,1см, фэйс", "(12-470-011)", "44", 1, 1),
+                new SadovodCSV("FORZA Кольцо-подставка для смартфона, 6,5x3x0,1см, фэйс", "(12-470-011)", "44", 1, 1),
+                new SadovodCSV("INBLOOM  Заборчик декоративный Цветок 10шт, 15x33 см", "(44-172-003)", "48", 4, 4),
+                new SadovodCSV("INBLOOM  Заборчик декоративный Цветок 10шт, 15x33 см", "(44-172-003)", "48", 4, 4)
         );
 
         List<SadovodCSV> resolveDuplicatedNames = new SadovodGoodsDuplicate().findDuplicateGoods(inputData);
 
         List<SadovodCSV> expected = List.of(
-                new SadovodCSV("FORZA Кольцо-подставка для смартфона, 6,5x3x0,1см, фэйс", "(12-470-011)", 17, 3, "Обувь", "48"),
-                new SadovodCSV("FORZA Кольцо-подставка для смартфона, 6,5x3x0,1см, фэйс", "(12-470-011)", 17, 2, "Обувь", "44"),
-                new SadovodCSV("INBLOOM  Заборчик декоративный Цветок 10шт, 15x33 см", "(44-172-003)", 87, 8, "Обувь", "48")
+                new SadovodCSV("FORZA Кольцо-подставка для смартфона, 6,5x3x0,1см, фэйс", "(12-470-011)", "48", 1, 3),
+                new SadovodCSV("FORZA Кольцо-подставка для смартфона, 6,5x3x0,1см, фэйс", "(12-470-011)", "44", 1, 2),
+                new SadovodCSV("INBLOOM  Заборчик декоративный Цветок 10шт, 15x33 см", "(44-172-003)", "48", 4, 8)
         );
         assertEquals(expected.size(), resolveDuplicatedNames.size());
         for (int i = 0; i < expected.size(); i++) {

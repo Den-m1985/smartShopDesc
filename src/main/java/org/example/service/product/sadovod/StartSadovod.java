@@ -38,7 +38,7 @@ public class StartSadovod extends AbstractStartProcess implements BaseProductTas
         String csvPathFile = tabController.getFilePathManager().getFilePaths(FileExtension.CSV);
 
         SadovodCsvFilter csvFilter = new SadovodCsvFilter();
-        List<SadovodCSV> data = csvFilter.csvFilter(csvPathFile, 6);
+        List<SadovodCSV> data = csvFilter.csvFilter(csvPathFile, 5);
         List<DtoError> reportList = csvFilter.getError();
 
         printText(TextLinks.COUNT_ROWS_CSV.getString() + data.size());

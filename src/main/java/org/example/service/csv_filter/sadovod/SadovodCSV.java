@@ -5,17 +5,11 @@ import org.example.service.csv_filter.csv.StructureCSV;
 import java.util.Objects;
 
 public class SadovodCSV extends StructureCSV {
-    private final String category;
     private final String size;
 
-    public SadovodCSV(String name, String articular, int price, int item, String category, String size) {
+    public SadovodCSV(String name, String articular, String size, int price, int item) {
         super(name, articular, price, item);
-        this.category = category;
         this.size = size;
-    }
-
-    public String getCategory() {
-        return category;
     }
 
     public String getSize() {
@@ -25,7 +19,7 @@ public class SadovodCSV extends StructureCSV {
     @Override
     public SadovodCSV copyWithNewValues(String name, String articular, int price, int item) {
         // Используем текущие значения category и size из этого объекта
-        return new SadovodCSV(name, articular, price, item, this.category, this.size);
+        return new SadovodCSV(name, articular, this.size, price, item);
     }
 
 
@@ -33,7 +27,7 @@ public class SadovodCSV extends StructureCSV {
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equalsWithoutItem(o)) return false;
         SadovodCSV that = (SadovodCSV) o;
-        return Objects.equals(category, that.category) && Objects.equals(size, that.size);
+        return Objects.equals(size, that.size);
     }
 
 }
