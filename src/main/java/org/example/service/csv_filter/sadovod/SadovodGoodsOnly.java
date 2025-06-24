@@ -25,7 +25,7 @@ public class SadovodGoodsOnly {
         if (rowCellItem && rowCellPrice) {
             int price = convertFloatToInt(row[cellPrice]);
             int item = Integer.parseInt(row[cellItem]);
-            dataWithItem.add(new SadovodCSV(row[0], row[2], price, item, row[1], row[3]));
+            dataWithItem.add(new SadovodCSV(row[0], row[1], row[2], price, item));
         }
     }
 

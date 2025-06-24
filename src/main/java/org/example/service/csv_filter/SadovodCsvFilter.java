@@ -13,7 +13,7 @@ public class SadovodCsvFilter extends AbstractCsvFilter {
     public List<SadovodCSV> csvFilter(String fileName, int lengthRow) {
         List<String[]> rows = getRawRows(fileName, lengthRow);
 
-        List<SadovodCSV> dataWithItem = new SadovodGoodsOnly().findOnlyGoods(rows, 4, 5);
+        List<SadovodCSV> dataWithItem = new SadovodGoodsOnly().findOnlyGoods(rows, 3, 4);
 
         SadovodGoodsUniq uniqueGoods = new SadovodGoodsUniq();
         List<SadovodCSV> uniqueValues = uniqueGoods.findUniqueGoods(dataWithItem);
